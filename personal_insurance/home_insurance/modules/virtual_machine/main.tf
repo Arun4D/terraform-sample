@@ -5,12 +5,12 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   location              = var.resource_group_rg_location
   resource_group_name   = var.resource_group_rg_name
   network_interface_ids = [var.my_terraform_nic_id]
-  size                  = "Standard_DS1_v2"
+  size                  = "Standard_B1ls"
 
   os_disk {
     name                 = "myOsDisk"
     caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    storage_account_type = "Standard_LRS"
   }
 
   source_image_reference {
