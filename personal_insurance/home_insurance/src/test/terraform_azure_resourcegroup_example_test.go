@@ -27,7 +27,7 @@ func TestTerraformAzureResourceGroupExample(t *testing.T) {
 	files.CopyFile("../../prod/providers.tf", terraformCodeDir+"/test-provider.tf")
 
 	// subscriptionID is overridden by the environment variable "ARM_SUBSCRIPTION_ID"
-	subscriptionID := "fe03bde0-15db-4f68-ac6f-f23934db804f"
+	subscriptionID := ""
 	uniquePostfix := random.UniqueId()
 	location := "eastus"
 
