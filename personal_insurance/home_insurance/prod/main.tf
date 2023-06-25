@@ -33,7 +33,7 @@ module "storage" {
 
 module "ssh_keys" {
   source = "../modules/ssh_keys"
-  
+
 }
 
 module "virtual_machine" {
