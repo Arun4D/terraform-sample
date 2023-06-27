@@ -3,6 +3,7 @@ module "resource_group" {
 
   resource_group_name_prefix = var.resource_group_name_prefix
   resource_group_location    = var.resource_group_location
+  default_tags               = var.default_tags
 }
 
 module "network" {
@@ -20,6 +21,7 @@ module "network" {
   nic_ip_config_name                          = var.nic_ip_config_name
   nic_ip_config_private_ip_address_allocation = var.nic_ip_config_private_ip_address_allocation
   nsg_name                                    = var.nsg_name
+  default_tags                                = var.default_tags
 
 }
 
@@ -28,7 +30,7 @@ module "storage" {
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
-
+  default_tags               = var.default_tags
 }
 
 module "ssh_keys" {
@@ -44,4 +46,5 @@ module "virtual_machine" {
   public_key_openssh         = module.ssh_keys.public_key_openssh
   primary_blob_endpoint      = module.storage.primary_blob_endpoint
   my_terraform_nic_id        = module.network.terraform_nic_id
+  default_tags               = var.default_tags
 }

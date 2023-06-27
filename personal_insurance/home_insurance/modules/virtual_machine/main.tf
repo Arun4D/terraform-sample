@@ -32,4 +32,6 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   boot_diagnostics {
     storage_account_uri = var.primary_blob_endpoint
   }
+
+  tags = var.default_tags
 }

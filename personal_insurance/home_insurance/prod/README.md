@@ -1,8 +1,20 @@
 # Large-size infrastructure using Terraform
 
+## Format Terraform code
+
+````bash
+cd home_insurance
+./script/terraform-fmt.sh
+````
+
+## Scan  Terraform code for Violation 
+
+````bash
+terrascan scan -t azure -i terraform
+````
 
 
-## Features
+## Terraform run steps
 
 1. Initialize Terraform
 

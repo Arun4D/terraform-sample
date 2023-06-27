@@ -4,6 +4,7 @@ resource "azurerm_virtual_network" "my_terraform_network" {
   address_space       = var.vnet_address_space
   location            = var.resource_group_rg_location
   resource_group_name = var.resource_group_rg_name
+  tags                = var.default_tags
 }
 
 # Create subnet
@@ -20,6 +21,7 @@ resource "azurerm_public_ip" "my_terraform_public_ip" {
   location            = var.resource_group_rg_location
   resource_group_name = var.resource_group_rg_name
   allocation_method   = var.public_ip_allocation_method
+  tags                = var.default_tags
 }
 
 # Create Network Security Group and rule
@@ -39,6 +41,7 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+  tags = var.default_tags
 }
 
 # Create network interface
@@ -53,6 +56,7 @@ resource "azurerm_network_interface" "my_terraform_nic" {
     private_ip_address_allocation = var.nic_ip_config_private_ip_address_allocation
     public_ip_address_id          = azurerm_public_ip.my_terraform_public_ip.id
   }
+  tags = var.default_tags
 }
 
 # Connect the security group to the network interface

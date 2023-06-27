@@ -7,3 +7,8 @@ variable "resource_group_rg_name" {
   default     = ""
   description = "resource_group rg name."
 }
+
+variable "default_tags" {
+  type        = map(any)
+  description = "Tag for the azure resources"
+}

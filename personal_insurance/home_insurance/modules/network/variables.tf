@@ -59,3 +59,8 @@ variable "nsg_name" {
   default     = "myNetworkSecurityGroup"
   description = "Network security group name"
 }
+
+variable "default_tags" {
+  type        = map(any)
+  description = "Tag for the azure resources"
+}

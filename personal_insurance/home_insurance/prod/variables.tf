@@ -74,3 +74,13 @@ variable "my_terraform_nic_id" {
   default     = ""
   description = "my terraform nic id."
 }
+
+variable "default_tags" {
+  type        = map(any)
+  description = "Tag for the azure resources"
+  default = {
+    environment = "prod"
+    department  = "finance"
+    source      = "terraform"
+  }
+}
