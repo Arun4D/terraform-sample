@@ -1,6 +1,11 @@
 variable "resource_group_location" {
   default     = "eastus"
   description = "Location of the resource group."
+
+  validation {
+    condition     = contains(["eastus", "westus"], lower(var.resource_group_location))
+    error_message = "Unsupported Azure Region specified. Supported regions include: eastus, westus"
+  }
 }
 
 variable "resource_group_name_prefix" {

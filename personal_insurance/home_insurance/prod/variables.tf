@@ -84,3 +84,18 @@ variable "default_tags" {
     source      = "terraform"
   }
 }
+
+variable "key_vault_name" {
+  default     = "kv"
+  description = "key vault name."
+}
+
+variable "key_vault_sku_name" {
+  default     = "standard"
+  description = "key vault sku name."
+}
+
+variable "key_vault_vm_secret_name" {
+  default     = "kv_vm_secret_name"
+  description = "key vault vm secret name."
+}
