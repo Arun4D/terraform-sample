@@ -8,7 +8,7 @@ resource "random_id" "id" {
   byte_length = 8
 }
 
-data "azurerm_client_config" "current" {} 
+data "azurerm_client_config" "current" {}
 
 locals {
 
@@ -16,13 +16,13 @@ locals {
 }
 
 resource "azurerm_key_vault" "my_key_vault" {
-  name                     = local.l_keyVaultName
-  location                 = var.resource_group_rg_location
-  resource_group_name      = var.resource_group_rg_name
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  sku_name = var.key_vault_sku_name
+  name                = local.l_keyVaultName
+  location            = var.resource_group_rg_location
+  resource_group_name = var.resource_group_rg_name
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  sku_name            = var.key_vault_sku_name
 
- /* access_policy  {
+  /* access_policy  {
     tenant_id = data.azurerm_client_config.current.tenant_id
 
     ## Need to check.. Object_id is null. Temp fix is added tenant_id instead of object_id
@@ -47,18 +47,18 @@ resource "azurerm_key_vault" "my_key_vault" {
 
   }*/
 
-  tags                     = var.default_tags
-  
-} 
+  tags = var.default_tags
+
+}
 
 resource "random_password" "vm_password" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "!#$%&,."
 }
 
 resource "azurerm_key_vault_secret" "kv_vm_secret" {
   key_vault_id = azurerm_key_vault.my_key_vault.id
-  name = var.key_vault_vm_secret_name
-  value = random_password.vm_password.result
+  name         = var.key_vault_vm_secret_name
+  value        = random_password.vm_password.result
 }

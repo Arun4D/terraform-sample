@@ -36,3 +36,11 @@ output "terraform_vm_id" {
 output "public_ip_address" {
   value = module.virtual_machine.public_ip_address
 }
+
+output "route_table_id" {
+  value = module.route_table.route_table_id
+}
+
+output "azurerm_monitor_metric_alert_id" {
+  value = module.monitor.azurerm_monitor_metric_alert_id
+}

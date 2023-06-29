@@ -18,3 +18,8 @@ default_tags = {
   department  = "finance"
   source      = "terraform"
 }
+
+disable_bgp_route_propagation = false
+route_name                    = "myRoute"
+route_address_prefix          = "10.1.0.0/16"
+route_next_hop_type           = "VnetLocal"

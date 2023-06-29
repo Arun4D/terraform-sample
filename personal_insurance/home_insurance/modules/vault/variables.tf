@@ -24,7 +24,7 @@ variable "key_vault_sku_name" {
 }
 
 variable "key_vault_vm_secret_name" {
-  type = string
+  type        = string
   default     = "kv-vm-secret-name"
   description = "key vault vm secret name."
 }
