@@ -27,3 +27,13 @@ variable "default_tags" {
   type        = map(any)
   description = "Tag for the azure resources"
 }
+
+variable "public_ip_fqdn" {
+  default     = ""
+  description = "public ip fqdn."
+}
+
+variable "public_ip_address" {
+  default     = ""
+  description = "public ip address."
+}

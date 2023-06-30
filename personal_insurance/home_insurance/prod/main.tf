@@ -63,6 +63,8 @@ module "virtual_machine" {
   public_key_openssh         = module.ssh_keys.public_key_openssh
   primary_blob_endpoint      = module.storage.primary_blob_endpoint
   my_terraform_nic_id        = module.network.terraform_nic_id
+  public_ip_fqdn = module.network.public_ip_fqdn
+  public_ip_address = module.network.public_ip_address
   default_tags               = var.default_tags
   depends_on                 = [module.resource_group, module.network, module.ssh_keys, module.storage]
 }

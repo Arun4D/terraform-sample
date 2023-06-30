@@ -33,8 +33,8 @@ output "terraform_vm_id" {
   value = module.virtual_machine.terraform_vm_id
 }
 
-output "public_ip_address" {
-  value = module.virtual_machine.public_ip_address
+output "vm_public_ip_address" {
+  value = module.virtual_machine.vm_public_ip_address
 }
 
 output "route_table_id" {
@@ -47,4 +47,12 @@ output "azurerm_monitor_metric_alert_id" {
 
 output "azurerm_backup_protected_file_share_id" {
   value = module.file_share.azurerm_backup_protected_file_share_id
+}
+
+output "public_ip_fqdn" {
+  value = module.network.public_ip_fqdn
+}
+
+output "public_ip_address" {
+  value =  module.network.public_ip_address
 }

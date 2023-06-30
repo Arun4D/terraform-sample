@@ -26,7 +26,7 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = var.public_key_openssh
+    public_key = file("~/.ssh/id_rsa.pub")
   }
 
   boot_diagnostics {
@@ -34,4 +34,21 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   }
 
   tags = var.default_tags
+}
+
+resource "null_resource" "exec_script" {
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update -y",
+    ]
+
+    connection {
+      type = "ssh"
+      user = "azureuser"
+      host = var.public_ip_address
+      private_key = "${file("~/.ssh/id_rsa")}"
+      timeout = "1m"
+      agent = false
+    }
+  }
 }
