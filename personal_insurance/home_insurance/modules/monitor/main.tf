@@ -19,7 +19,7 @@ resource "azurerm_monitor_metric_alert" "monitor_metric_alert" {
   description         = "Action will be triggered when Transactions count is greater than 50."
 
 
-  criteria { 
+  criteria {
     metric_namespace = "Microsoft.Compute/virtualMachines"
     metric_name      = "Percentage CPU"
     aggregation      = "Average"
@@ -27,7 +27,7 @@ resource "azurerm_monitor_metric_alert" "monitor_metric_alert" {
     threshold        = 80
   }
 
-  criteria { 
+  criteria {
     metric_namespace = "Microsoft.Compute/virtualMachines"
     metric_name      = "OS Disk Bandwidth Consumed Percentage"
     aggregation      = "Average"
@@ -36,7 +36,7 @@ resource "azurerm_monitor_metric_alert" "monitor_metric_alert" {
   }
 
 
-  criteria { 
+  criteria {
     metric_namespace = "Microsoft.Compute/virtualMachines"
     metric_name      = "Available Memory Bytes"
     aggregation      = "Average"

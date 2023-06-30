@@ -70,8 +70,26 @@ module "virtual_machine" {
 module "monitor" {
   source = "../modules/monitor"
 
-  resource_group_rg_name     = module.resource_group.resource_group_name
-  monitor_resource_ids = [module.virtual_machine.terraform_vm_id]
-   default_tags               = var.default_tags
-   depends_on = [ module.virtual_machine ]
+  resource_group_rg_name = module.resource_group.resource_group_name
+  monitor_resource_ids   = [module.virtual_machine.terraform_vm_id]
+  default_tags           = var.default_tags
+  depends_on             = [module.virtual_machine]
+}
+
+module "file_share" {
+  source = "../modules/backup/file_share"
+
+  resource_group_rg_location                     = var.resource_group_location
+  resource_group_rg_name                         = module.resource_group.resource_group_name
+  recovery_services_vault_name                   = var.recovery_services_vault_name
+  recovery_services_vault_sku                    = var.recovery_services_vault_sku
+  storage_account_name                           = var.storage_account_name
+  storage_account_account_tier                   = var.storage_account_account_tier
+  storage_account_account_replication_type       = var.storage_account_account_replication_type
+  storage_share                                  = var.storage_share
+  backup_policy_file_share_name                  = var.backup_policy_file_share_name
+  backup_policy_file_share_backup_frequency      = var.backup_policy_file_share_backup_frequency
+  backup_policy_file_share_backup_time           = var.backup_policy_file_share_backup_time
+  backup_policy_file_share_retention_daily_count = var.backup_policy_file_share_retention_daily_count
+  default_tags                                   = var.default_tags
 }

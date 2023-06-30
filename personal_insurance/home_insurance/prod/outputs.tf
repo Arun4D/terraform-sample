@@ -44,3 +44,7 @@ output "route_table_id" {
 output "azurerm_monitor_metric_alert_id" {
   value = module.monitor.azurerm_monitor_metric_alert_id
 }
+
+output "azurerm_backup_protected_file_share_id" {
+  value = module.file_share.azurerm_backup_protected_file_share_id
+}

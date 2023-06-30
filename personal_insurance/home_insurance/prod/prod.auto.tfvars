@@ -23,3 +23,19 @@ disable_bgp_route_propagation = false
 route_name                    = "myRoute"
 route_address_prefix          = "10.1.0.0/16"
 route_next_hop_type           = "VnetLocal"
+
+#Backup File Share
+recovery_services_vault_name                   = "tfex-recovery-vault"
+recovery_services_vault_sku                    = "Standard"
+storage_account_name                           = "ad0in0fileshare0sa"
+storage_account_account_tier                   = "Standard"
+storage_account_account_replication_type       = "LRS"
+storage_share                                  = "example-share"
+backup_policy_file_share_name                  = "tfex-recovery-vault-policy"
+backup_policy_file_share_backup_frequency      = "Daily"
+backup_policy_file_share_backup_time           = "23:00"
+backup_policy_file_share_retention_daily_count = 10
+
+
+
+
