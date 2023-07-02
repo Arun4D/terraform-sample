@@ -1,0 +1,8 @@
+---
+- name: Play for production deployment
+  hosts: azure_prod_linux
+  remote_user: ansibleuser
+  become: true
+
+  roles:
+    - java_17
