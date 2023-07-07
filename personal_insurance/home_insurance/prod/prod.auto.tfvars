@@ -36,6 +36,8 @@ backup_policy_file_share_backup_frequency      = "Daily"
 backup_policy_file_share_backup_time           = "23:00"
 backup_policy_file_share_retention_daily_count = 10
 
-
-
+#Availability set
+availability_set_name= "example-avail-set"
+platform_fault_domain_count= 3
+platform_update_domain_count = 5
 

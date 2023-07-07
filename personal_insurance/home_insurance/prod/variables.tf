@@ -186,3 +186,20 @@ variable "backup_policy_file_share_retention_daily_count" {
   default     = 10
   description = "Backup policy file share retention daily count."
 }
+
+variable "availability_set_name" {
+  type        = string
+  default = "example-avail-set"
+  description = ""
+}
+
+variable "platform_fault_domain_count" {
+  type        = number
+  default = 3
+  description = "Specifies the number of fault domains that are used"
+}
+variable "platform_update_domain_count" {
+  type        = number
+  default = 5
+  description = "Specifies the number of update domains that are used"
+}

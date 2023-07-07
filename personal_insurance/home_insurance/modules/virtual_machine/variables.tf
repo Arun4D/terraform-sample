@@ -37,3 +37,9 @@ variable "public_ip_address" {
   default     = ""
   description = "public ip address."
 }
+
+
+variable "availability_set_id" {
+  default     = ""
+  description = "availability set id."
+}

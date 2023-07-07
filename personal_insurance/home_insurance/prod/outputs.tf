@@ -56,3 +56,8 @@ output "public_ip_fqdn" {
 output "public_ip_address" {
   value =  module.network.public_ip_address
 }
+
+output "availability_set_id" {
+  value = module.availability_set.availability_set_id
+}
+

@@ -49,3 +49,7 @@ terraform plan -destroy -out main.destroy.tfplan
 ````bash
 terraform apply main.destroy.tfplan
 ````
+
+
+
+https://stackoverflow.com/questions/58343258/iterate-over-nested-data-with-for-for-each-at-resource-level

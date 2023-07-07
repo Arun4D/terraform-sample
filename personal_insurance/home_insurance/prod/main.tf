@@ -54,6 +54,20 @@ module "route_table" {
   depends_on                    = [module.resource_group]
 }
 
+module "availability_set" {
+  source = "../modules/availability_set"
+  
+  resource_group_rg_location    = var.resource_group_location
+  resource_group_rg_name        = module.resource_group.resource_group_name
+  availability_set_name = var.availability_set_name 
+  platform_fault_domain_count = var.platform_fault_domain_count
+  platform_update_domain_count = var.platform_update_domain_count
+
+
+  default_tags                  = var.default_tags
+  depends_on                    = [module.resource_group]
+
+}
 
 module "virtual_machine" {
   source = "../modules/virtual_machine"
@@ -65,8 +79,9 @@ module "virtual_machine" {
   my_terraform_nic_id        = module.network.terraform_nic_id
   public_ip_fqdn = module.network.public_ip_fqdn
   public_ip_address = module.network.public_ip_address
+  availability_set_id = module.availability_set.availability_set_id
   default_tags               = var.default_tags
-  depends_on                 = [module.resource_group, module.network, module.ssh_keys, module.storage]
+  depends_on                 = [module.resource_group, module.availability_set, module.network, module.ssh_keys, module.storage]
 }
 
 module "monitor" {
