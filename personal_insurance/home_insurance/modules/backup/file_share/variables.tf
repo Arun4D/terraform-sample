@@ -29,7 +29,7 @@ variable "storage_account_name" {
   type        = string
   default     = "examplesa"
   description = "storage account name."
-   validation {
+  validation {
     condition     = (length(var.storage_account_name) >= 3 && length(var.storage_account_name) <= 24 && length(regex("[a-z0-9]+", var.storage_account_name)) == length(var.storage_account_name))
     error_message = "can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long"
   }

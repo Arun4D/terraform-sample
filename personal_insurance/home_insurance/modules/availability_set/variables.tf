@@ -15,17 +15,17 @@ variable "default_tags" {
 
 variable "availability_set_name" {
   type        = string
-  default = "example-avail-set"
+  default     = "example-avail-set"
   description = ""
 }
 
 variable "platform_fault_domain_count" {
   type        = number
-  default = 3
+  default     = 3
   description = "Specifies the number of fault domains that are used"
 }
 variable "platform_update_domain_count" {
   type        = number
-  default = 5
+  default     = 5
   description = "Specifies the number of update domains that are used"
 }

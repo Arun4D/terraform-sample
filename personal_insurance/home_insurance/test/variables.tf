@@ -1,6 +1,5 @@
 variable "resource_group_names" {
-  type    = list(string)
-  default = [""]
+
 }
 
 variable "resource_group_location" {

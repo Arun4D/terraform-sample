@@ -1,10 +1,13 @@
 module "resource_group" {
   source = "../modules/resource_group"
 
-  resource_group_name_prefix = var.resource_group_name_prefix
-  resource_group_location    = var.resource_group_location
-  default_tags               = var.default_tags
+  for_each = toset(var.resource_group_names)
+
+  resource_group_name     = each.key
+  resource_group_location = var.resource_group_location
+  default_tags            = var.default_tags
 }
+
 
 module "network" {
   source = "../modules/network"
@@ -12,7 +15,7 @@ module "network" {
   vnet_name                                   = var.vnet_name
   vnet_address_space                          = var.vnet_address_space
   resource_group_rg_location                  = var.resource_group_location
-  resource_group_rg_name                      = module.resource_group.resource_group_name
+  resource_group_rg_name                      = module.resource_group["ad-terr-rg1"].name
   subnet_name                                 = var.subnet_name
   subnet_address_prefixes                     = var.subnet_address_prefixes
   public_ip_name                              = var.public_ip_name
@@ -56,16 +59,16 @@ module "route_table" {
 
 module "availability_set" {
   source = "../modules/availability_set"
-  
-  resource_group_rg_location    = var.resource_group_location
-  resource_group_rg_name        = module.resource_group.resource_group_name
-  availability_set_name = var.availability_set_name 
-  platform_fault_domain_count = var.platform_fault_domain_count
+
+  resource_group_rg_location   = var.resource_group_location
+  resource_group_rg_name       = module.resource_group.resource_group_name
+  availability_set_name        = var.availability_set_name
+  platform_fault_domain_count  = var.platform_fault_domain_count
   platform_update_domain_count = var.platform_update_domain_count
 
 
-  default_tags                  = var.default_tags
-  depends_on                    = [module.resource_group]
+  default_tags = var.default_tags
+  depends_on   = [module.resource_group]
 
 }
 
@@ -77,9 +80,9 @@ module "virtual_machine" {
   public_key_openssh         = module.ssh_keys.public_key_openssh
   primary_blob_endpoint      = module.storage.primary_blob_endpoint
   my_terraform_nic_id        = module.network.terraform_nic_id
-  public_ip_fqdn = module.network.public_ip_fqdn
-  public_ip_address = module.network.public_ip_address
-  availability_set_id = module.availability_set.availability_set_id
+  public_ip_fqdn             = module.network.public_ip_fqdn
+  public_ip_address          = module.network.public_ip_address
+  availability_set_id        = module.availability_set.availability_set_id
   default_tags               = var.default_tags
   depends_on                 = [module.resource_group, module.availability_set, module.network, module.ssh_keys, module.storage]
 }

@@ -44,12 +44,12 @@ resource "null_resource" "exec_script" {
     ]
 
     connection {
-      type = "ssh"
-      user = "azureuser"
-      host = var.public_ip_address
-      private_key = "${file("~/.ssh/id_rsa")}"
-      timeout = "1m"
-      agent = false
+      type        = "ssh"
+      user        = "azureuser"
+      host        = var.public_ip_address
+      private_key = file("~/.ssh/id_rsa")
+      timeout     = "1m"
+      agent       = false
     }
   }
 }
