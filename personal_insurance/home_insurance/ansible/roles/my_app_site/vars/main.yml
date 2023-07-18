@@ -1,0 +1,6 @@
+---
+# vars file for my_app_site
+iis_port: 9090
+iis_path: C:\virtualdirectory\app
+iis_log_path: C:\sites\logs
+iis_hostname: ad-win-ansible-

@@ -1,0 +1,9 @@
+---
+- name: Play for production deployment
+  hosts: azure_dev_win
+  remote_user: ansibleadmin
+  # become: true
+
+  roles:
+    - windows_iis
+    - my_app_site

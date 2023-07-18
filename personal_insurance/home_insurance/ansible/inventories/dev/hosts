@@ -1,0 +1,4 @@
+[azure_dev_win]
+azure-vm1 
+
+[azure_dev_win:vars]

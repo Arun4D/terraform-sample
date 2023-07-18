@@ -1,0 +1,50 @@
+---
+- name: Creates an application pool, sets attributes and starts it
+  community.windows.win_iis_webapppool:
+    name: appPool
+    state: started
+    attributes:
+      managedRuntimeVersion: v4.0
+      autoStart: no
+
+- name: Create directory structure
+  ansible.windows.win_file:
+    path: "{{ iis_path }}"
+    state: directory
+
+
+- name: App IIS site
+  win_iis_website:
+    name: MyAppSite
+    state: started
+    port: "{{ iis_port }}"
+    #hostname: "{{ iis_hostname }}"
+    application_pool: appPool
+    physical_path: "{{ iis_path }}"
+    parameters: "logfile.directory:{{ iis_log_path }}"
+  register: website
+
+- name: Copy a single file
+  ansible.windows.win_copy:
+    src: "{{ role_path }}/files/app.html"
+    dest: "{{ iis_path }}"
+
+- name: Add a HTTP binding on port 9090
+  community.windows.win_iis_webbinding:
+    name: MyAppSite
+    port: "{{ iis_port }}"
+    state: present
+
+- name: Open site's port on firewall
+  win_firewall_rule:
+    name: MyAppSite9090
+    enable: yes
+    state: present
+    localport: "{{ iis_port }}"
+    action: Allow
+    direction: In
+    protocol: Tcp
+    force: true
+  tags: firewall
+
+
