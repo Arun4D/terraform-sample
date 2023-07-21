@@ -57,7 +57,7 @@ data "template_file" "not_allowed_vm_ext_policy_rule_params_value" {
 
 }
 
-resource "azurerm_policy_definition" "not_allowed_vm_ext_policy_def" {
+/* resource "azurerm_policy_definition" "not_allowed_vm_ext_policy_def" {
   name         = "${var.env}_not_allowed_vm_ext_policy_def"
   policy_type  = "Custom"
   mode         = "All"
@@ -70,4 +70,4 @@ resource "azurerm_policy_definition" "not_allowed_vm_ext_policy_def" {
 
   parameters = data.template_file.not_allowed_vm_ext_policy_rule_params.rendered
 
-}
+} */

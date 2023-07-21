@@ -1,5 +1,5 @@
-output "allowed_vm_sku_policy_assign_id" {
-  value = azurerm_resource_group_policy_assignment.allowed_vm_sku_policy_assign.id
+output "naming_policy_assign_id" {
+  value = azurerm_resource_group_policy_assignment.naming_rg_policy_assign.id
 }
 output "resource_group_id" {
   value = var.resource_group_id

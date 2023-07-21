@@ -55,7 +55,7 @@ data "template_file" "allowed_storage_sku_policy_rule_params_value" {
 
 }
 
-resource "azurerm_policy_definition" "allowed_storage_sku_policy_def" {
+/* resource "azurerm_policy_definition" "allowed_storage_sku_policy_def" {
   name         = "${var.env}-allowed_storage_sku_policy_def"
   policy_type  = "Custom"
   mode         = "All"
@@ -68,4 +68,4 @@ resource "azurerm_policy_definition" "allowed_storage_sku_policy_def" {
 
   parameters = data.template_file.allowed_storage_sku_policy_rule_params.rendered
 
-}
+} */

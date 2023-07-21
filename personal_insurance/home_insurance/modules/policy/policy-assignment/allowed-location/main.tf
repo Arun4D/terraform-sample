@@ -4,7 +4,7 @@ resource "azurerm_resource_group_policy_assignment" "allowed_location_policy_ass
   policy_definition_id = var.policy_definition_id
 
   parameters = jsonencode({
-    "allowedLocations" : { "value" : var.allowedLocations }
+    "listOfAllowedLocations" : { "value" : var.allowedLocations }
   })
 }
 

@@ -9,10 +9,10 @@ variable "policy_definition_id" {
 variable "env" {
 
 }
+variable "resourceGroupName" {
 
+}
 variable "resource_group_name" {
 
 }
 
-variable "resource_group_location" {
-}

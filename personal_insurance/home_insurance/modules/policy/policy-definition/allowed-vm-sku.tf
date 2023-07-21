@@ -56,7 +56,7 @@ data "template_file" "allowed_vm_sku_policy_rule_params_value" {
 
 }
 
-resource "azurerm_policy_definition" "allowed_vm_sku_policy_def" {
+/* resource "azurerm_policy_definition" "allowed_vm_sku_policy_def" {
   name         = "${var.env}-allowed_vm_sku_policy_def"
   policy_type  = "Custom"
   mode         = "All"
@@ -69,4 +69,4 @@ resource "azurerm_policy_definition" "allowed_vm_sku_policy_def" {
 
   parameters = data.template_file.allowed_vm_sku_policy_rule_params.rendered
 
-}
+} */

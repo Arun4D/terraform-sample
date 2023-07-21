@@ -2,6 +2,10 @@ output "vnet_name" {
   value = azurerm_virtual_network.my_terraform_network.name
 }
 
+output "vnet_id" {
+  value = azurerm_virtual_network.my_terraform_network.id
+}
+
 output "terraform_nic_id" {
   value = azurerm_network_interface.my_terraform_nic.id
 }

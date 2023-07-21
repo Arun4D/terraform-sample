@@ -1,4 +1,4 @@
-data "template_file" "naming_policy_rule" {
+data "template_file" "naming_rg_policy_rule" {
   template = <<POLICY_RULE
     {
     "if": {
@@ -21,7 +21,7 @@ data "template_file" "naming_policy_rule" {
   }
 POLICY_RULE
 }
-data "template_file" "naming_policy_rule_params" {
+data "template_file" "naming_rg_policy_rule_params" {
   template = <<PARAMETERS
     {
         "namePattern":{
@@ -35,7 +35,7 @@ data "template_file" "naming_policy_rule_params" {
 PARAMETERS
 }
 
-data "template_file" "naming_policy_rule_meta" {
+data "template_file" "naming_rg_policy_rule_meta" {
   template = <<METADATA
     {
     "category": "General"
@@ -46,17 +46,17 @@ METADATA
 }
 
 
-resource "azurerm_policy_definition" "naming_policy_def" {
-  name         = "${var.env}-naming_policy_def"
+resource "azurerm_policy_definition" "naming_rg_policy_def" {
+  name         = "${var.env}-naming_rg_policy_def"
   policy_type  = "Custom"
   mode         = "All"
   display_name = "Naming policy definition"
 
-  metadata = data.template_file.naming_policy_rule_meta.rendered
+  metadata = data.template_file.naming_rg_policy_rule_meta.rendered
 
-  policy_rule = data.template_file.naming_policy_rule.rendered
+  policy_rule = data.template_file.naming_rg_policy_rule.rendered
 
 
-  parameters = data.template_file.naming_policy_rule_params.rendered
+  parameters = data.template_file.naming_rg_policy_rule_params.rendered
 
 }

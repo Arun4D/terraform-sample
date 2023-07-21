@@ -47,7 +47,7 @@ data "template_file" "allowed_location_policy_rule_params_value" {
 
 }
 
-resource "azurerm_policy_definition" "allowed_location_policy_def" {
+/* resource "azurerm_policy_definition" "allowed_location_policy_def" {
   name         = "${var.env}-allowed_location_policy_def"
   policy_type  = "Custom"
   mode         = "All"
@@ -60,20 +60,4 @@ resource "azurerm_policy_definition" "allowed_location_policy_def" {
 
   parameters = data.template_file.allowed_location_policy_rule_params.rendered
 
-}
-
-/* resource "azurerm_policy_set_definition" "allowed_location_policy_set_def" {
-  name         = "${var.env}-allowed_location_policy_set_def"
-  policy_type  = "Custom"
-  display_name = "Test Policy Set"
-
-  parameters = "${data.template_file.allowed_location_policy_rule_params.rendered}"
-
-  policy_definition_reference {
-    policy_definition_id = azurerm_policy_definition.allowed_location_policy_def.id
-    #parameter_values  = "${data.template_file.allowed_location_policy_rule_params_value.rendered}"
-    parameter_values  = jsonencode({
-      "listOfAllowedLocations": {"value": "${var.allowedLocations}" }
-    }) 
-  }
 } */

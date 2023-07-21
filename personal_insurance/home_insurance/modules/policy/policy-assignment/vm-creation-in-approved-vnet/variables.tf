@@ -9,7 +9,7 @@ variable "policy_definition_id" {
 variable "env" {
 
 }
-variable "vm_extensions" {
+variable "vNetId" {
 
 }
 variable "resource_group_name" {
