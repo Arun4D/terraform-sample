@@ -7,7 +7,7 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   network_interface_ids = [var.my_terraform_nic_id]
   size                  = "Standard_B1ls"
 
-  availability_set_id = var.availability_set_id
+  #availability_set_id = var.availability_set_id
   os_disk {
     name                 = "myOsDisk"
     caching              = "ReadWrite"
