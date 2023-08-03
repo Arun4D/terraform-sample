@@ -1,0 +1,100 @@
+---
+# tasks file for filebeat
+
+- name: Add elastic repo
+  block:
+    - name: Debian - Install apt-transport-https to support https APT downloads
+      ansible.builtin.apt:
+        name: apt-transport-https
+        state: present
+
+    - name: Debian - download Elasticsearch repository key
+      ansible.builtin.apt_key:
+        url: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+        state: present
+
+    # Elastic.co is not cool about not updating to a new version every week... Going to want static files at some point (lol I saw this coming)
+    - name: Debian - Add elasticsearch repository
+      ansible.builtin.apt_repository:
+        repo: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+        state: present
+    
+    - name: We shall install filebeat now
+      ansible.builtin.package:
+        name: "filebeat={{ elastic_ver }}"
+        state: present
+      notify:
+        - restart filebeat
+
+  when: ansible_os_family == 'Debian' or ansible_os_family == "Kali GNU/Linux"
+
+
+- name: Add elastic repo - Redhat
+  block:
+    - name: Add repository
+      ansible.builtin.yum_repository:
+        name: Elastic-repository
+        description: Elastic repository for 7.x packages
+        baseurl: https://artifacts.elastic.co/packages/7.x/yum
+        gpgkey: https://packages.elastic.co/GPG-KEY-elasticsearch
+    
+    - name: We shall install filebeat now
+      ansible.builtin.package:
+        # Seriously you are adding a -1 
+        name: "filebeat-{{ elastic_ver }}-1"
+        state: present
+      notify:
+        - restart filebeat
+  when: ansible_os_family == 'RedHat'
+
+- name: make filebeat directory
+  block:
+    - name: create the directory if it does not exist
+      ansible.builtin.file:
+        path: /etc/filebeat
+        state: directory
+        mode: '0755'
+    
+    - name: create modules.d directory if it does not exists
+      ansible.builtin.file:
+        path: /etc/filebeat/modules.d
+        state: directory
+        mode: '0755'
+
+    - name: We shall move filebeat now
+      ansible.builtin.copy:
+        src: filebeat
+        dest: /bin/filebeat
+        mode: '0777'
+     
+    - name: move module.d disable thing over
+      ansible.builtin.copy:
+        src: auditd.yml.disabled
+        dest: /etc/filebeat/modules.d/auditd.yml.disabled
+        mode: '0644'
+ 
+    - name: yeet the init script into bsd
+      ansible.builtin.template:
+        src: filebeatinit
+        dest: /etc/rc.d/filebeat
+ 
+    - name: edit startup script on bsd
+      ansible.builtin.lineinfile:
+        path: /etc/rc.conf
+        line: filebeat_enabled="YES"
+    - name: copy /usr/share directory
+      ansible.builtin.copy:
+        src: filebeatdir
+        dest: /usr/share/filebeat
+        mode: '0777'      
+
+  when: ansible_os_family == 'FreeBSD'
+
+
+- name: We shall transfer the config with the correct address
+  ansible.builtin.template:
+    src: filebeat.yml
+    dest: /etc/filebeat/filebeat.yml
+  when: ansible_os_family == 'Debian' or ansible_os_family == "Kali GNU/Linux" or ansible_os_family == 'RedHat'
+  notify:
+    - restart filebeat

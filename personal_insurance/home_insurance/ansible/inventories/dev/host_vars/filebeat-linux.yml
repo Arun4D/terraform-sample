@@ -1,0 +1,6 @@
+---
+ansible_user: ansibleadmin
+ansible_password: ""
+ansible_host: localhost
+
+

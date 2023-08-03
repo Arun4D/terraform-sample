@@ -1,0 +1,7 @@
+---
+- name: Play for production deployment
+  hosts: elk_win_agent
+  remote_user: ansibleadmin
+
+  roles:
+    - winlogbeat

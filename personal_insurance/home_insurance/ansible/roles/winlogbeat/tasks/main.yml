@@ -1,0 +1,39 @@
+---
+# tasks file for winlogbeat
+- name: Create Temp directory 
+  ansible.windows.win_file:
+    path: "{{winlog_path}}"
+    state: directory
+- name: Download and extract Winlogbeat
+  block:
+    - name: Download the installer if we need to
+      ansible.windows.win_get_url:
+        url: "{{ winlog_url }}"
+        dest: "{{ winlog_url_dest }}"
+        force: no
+
+    - name: Extract the installer if we need to
+      community.windows.win_unzip:
+        src: "{{ winlog_url_dest }}"
+        dest: "{{ winlog_install_base_path }}"
+        creates: "{{ winlog_install_path }}"
+
+- name: Copy winbeat config file
+  ansible.windows.win_template:
+    src: winlogbeat.yml
+    dest: "{{ winlog_config_path }}"
+
+- name: Check if the service exists
+  ansible.windows.win_service:
+    name: winlogbeat
+  register: winbeat_service
+
+- name: Install the Winlogbeat service
+  ansible.windows.win_shell: Powershell.exe -executionpolicy bypass -File '{{ winlog_installer_path }}'
+  when: winbeat_service.exists == false
+
+- name: Start that dank Windows logging
+  ansible.windows.win_service:
+    name: winlogbeat
+    start_mode: auto
+    state: started

@@ -1,0 +1,8 @@
+---
+- name: Play for production deployment
+  hosts: localhost
+  remote_user: arun
+  become: true
+
+  roles:
+    - filebeat

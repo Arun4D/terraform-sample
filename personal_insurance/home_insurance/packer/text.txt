@@ -1,0 +1,26 @@
+
+  shared_image_gallery   {
+    subscription = "fe03bde0-15db-4f68-ac6f-f23934db804f"
+   resource_group = "ad-tf-img-rg"
+    gallery_name = "adimagegallery"
+    image_name = "ad-windows-dc16"
+    image_version = "1.0.0"
+  }
+
+
+  shared_image_gallery_destination   {
+    subscription = "fe03bde0-15db-4f68-ac6f-f23934db804f"
+    resource_group = "ad-tf-img-rg"
+    gallery_name = "adimagegallery"
+    image_name = "ad-windows-dc16"
+    image_version = "1.0.0"
+    storage_account_type = "Standard_LRS"
+  }
+
+   
+  managed_image_name                = "ad-windows-dc16"
+  managed_image_resource_group_name = "ad-tf-img-rg"
+  
+
+    managed_image_name                = "ad-windows-dc16"
+  managed_image_resource_group_name = "ad-tf-img-rg"

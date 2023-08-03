@@ -2,3 +2,12 @@
 azure-vm1 
 
 [azure_dev_win:vars]
+
+[qrader_win_agent]
+localhost
+
+[elk_linux_agent]
+filebeat-linux
+
+[elk_win_agent]
+winlogbeat

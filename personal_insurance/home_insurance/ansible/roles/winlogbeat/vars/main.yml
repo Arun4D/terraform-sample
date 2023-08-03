@@ -1,0 +1,9 @@
+---
+# vars file for winlogbeat
+winlog_path: C:\\agent\\winlogbeat
+winlog_url: https://artifacts.elastic.co/downloads/beats/winlogbeat/winlogbeat-7.6.1-windows-x86_64.zip
+winlog_url_dest: C:\\agent\\winlogbeat\\winlogbeat-7.6.1-windows-x86_64.zip
+winlog_install_base_path: C:\\agent\\winlogbeat\\
+winlog_install_path: C:\\agent\\winlogbeat\\winlogbeat-7.6.1-windows-x86_64\\
+winlog_config_path: C:\\agent\\winlogbeat\\winlogbeat-7.6.1-windows-x86_64\\winlogbeat.yml
+winlog_installer_path: C:\\agent\\winlogbeat\\winlogbeat-7.6.1-windows-x86_64\\install-service-winlogbeat.ps1

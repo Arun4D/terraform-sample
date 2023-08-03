@@ -1,0 +1,89 @@
+---
+# tasks file for filebeat
+
+- name: Add elastic repository
+  block:
+    - name: Debian - Install apt-transport-https to support https APT downloads
+      ansible.builtin.apt:
+        name: apt-transport-https
+        state: present
+
+    - name: Debian - download Elasticsearch repository key
+      ansible.builtin.apt_key:
+        url: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+        state: present
+
+    - name: Debian - Add elasticsearch repository
+      ansible.builtin.apt_repository:
+        repo: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+        state: present
+
+    - name: We shall install filebeat now
+      ansible.builtin.package:
+        name: "filebeat={{ elastic_ver }}"
+        state: present
+      notify:
+        - restart filebeat
+
+  when: ansible_os_family == 'Debian'
+
+- name: Add elastic repo - Redhat
+  block:
+    - name: Add repository
+      ansible.builtin.yum_repository:
+        name: Elastic-repository
+        description: Elastic repository for 7.x packages
+        baseurl: https://artifacts.elastic.co/packages/7.x/yum
+        gpgkey: https://packages.elastic.co/GPG-KEY-elasticsearch
+
+    - name: We shall install filebeat now
+      ansible.builtin.package:
+        name: "filebeat-{{ elastic_ver }}-1"
+        state: present
+      notify:
+        - restart filebeat
+  when: ansible_os_family == 'RedHat'
+
+- name: install filebeat
+  block:
+    - name: create directory
+      ansible.builtin.file:
+        path: /etc/filebeat
+        state: directory
+        mode: "0777"
+
+    - name: create rc.conf.local file
+      ansible.builtin.file:
+        path: /etc/rc.conf.local
+        state: touch
+        mode: "0777"
+
+    - name: add pkg
+      ansible.builtin.package:
+        name: "sysutils/beats"
+        state: present
+
+    - name: Move filebeat now
+      ansible.builtin.copy:
+        src: filebeat
+        dest: /usr/sbin/filebeat
+        mode: "0777"
+
+    - name: Edit startup script on bsd
+      ansible.builtin.lineinfile:
+        path: /etc/rc.conf.local
+        line: filebeat_enabled="YES"
+
+    - name: Edit for conf file
+      ansible.builtin.lineinfile:
+        path: /etc/rc.conf.local
+        line: filebeat_conf=/etc/filebeat/filebeat.yml
+
+  when: ansible_os_family == 'FreeBSD'
+
+- name: We shall transfer the config with the correct address
+  ansible.builtin.template:
+    src: filebeat.yml
+    dest: /etc/filebeat/filebeat.yml
+  notify:
+    - restart filebeat
