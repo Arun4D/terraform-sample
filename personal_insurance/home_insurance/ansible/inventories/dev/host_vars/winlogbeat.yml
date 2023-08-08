@@ -1,6 +1,6 @@
 ---
 ansible_user: ansibleadmin
-#ansible_password: "Ans!ble@dmin123"
+#ansible_password: ""
 ansible_connection: winrm
 ansible_host: 20.169.165.26
 ansible_winrm_port: 5985

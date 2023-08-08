@@ -12,7 +12,7 @@ resource "azurerm_monitor_action_group" "monitor_act_group_main" {
   tags = var.default_tags
 }
 
-resource "azurerm_monitor_metric_alert" "monitor_metric_alert" {
+resource "azurerm_monitor_metric_alert" "monitor_server_metric_alert" {
   name                = "example-metricalert"
   resource_group_name = var.resource_group_rg_name
   scopes              = var.monitor_resource_ids

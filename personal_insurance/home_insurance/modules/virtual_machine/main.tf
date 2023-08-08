@@ -37,7 +37,7 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   tags = var.default_tags
 }
 
-resource "null_resource" "exec_script" {
+/* resource "null_resource" "exec_script" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get update -y",
@@ -52,4 +52,4 @@ resource "null_resource" "exec_script" {
       agent       = false
     }
   }
-}
+} */

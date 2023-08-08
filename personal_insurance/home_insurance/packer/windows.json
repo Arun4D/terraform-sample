@@ -1,0 +1,42 @@
+{
+    "builders": [{
+      "type": "azure-arm",
+  
+      "client_id": "73de1658-438d-49c5-a84b-fc39ea18fc8b",
+      "client_secret": "Aqt8Q~GkFn2UVYENrneMW_wQUNA95YvEBiptQaw3",
+      "tenant_id": "123dcb03-eb91-46b6-a976-f729e0527971",
+      "subscription_id": "fe03bde0-15db-4f68-ac6f-f23934db804f",
+  
+      "managed_image_resource_group_name": "ad-tf-rg",
+      "managed_image_name": "myPackerImage",
+  
+      "os_type": "Windows",
+      "image_publisher": "MicrosoftWindowsServer",
+      "image_offer": "WindowsServer",
+      "image_sku": "2016-Datacenter",
+  
+      "communicator": "winrm",
+      "winrm_use_ssl": true,
+      "winrm_insecure": true,
+      "winrm_timeout": "5m",
+      "winrm_username": "packer",
+  
+      "azure_tags": {
+          "dept": "AD_Test",
+          "task": "Image deployment"
+      },
+  
+      "build_resource_group_name": "ad-tf-rg",
+      "vm_size": "Standard_B1ls"
+    }],
+    "provisioners": [{
+      "type": "powershell",
+      "inline": [
+        "Add-WindowsFeature Web-Server",
+        "while ((Get-Service RdAgent).Status -ne 'Running') { Start-Sleep -s 5 }",
+        "while ((Get-Service WindowsAzureGuestAgent).Status -ne 'Running') { Start-Sleep -s 5 }",
+        "& $env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /quiet /quit",
+        "while($true) { $imageState = Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\State | Select ImageState; if($imageState.ImageState -ne 'IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE') { Write-Output $imageState.ImageState; Start-Sleep -s 10  } else { break } }"
+      ]
+    }]
+  }
