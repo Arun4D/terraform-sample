@@ -18,23 +18,23 @@ provider "azurerm" {
   #alias = "sitea"
 
   subscription_id = ""
-  tenant_id = ""
+  tenant_id       = ""
 
-  auxiliary_tenant_ids = [""]  
+  auxiliary_tenant_ids = [""]
 
-  features { }
+  features {}
 }
 
 provider "azurerm" {
-  
+
   alias = "siteb"
-  
+
   subscription_id = ""
   client_id       = ""
   client_secret   = ""
-  tenant_id       = ""  
-  
-  auxiliary_tenant_ids = [""]  
+  tenant_id       = ""
 
-  features { }  
+  auxiliary_tenant_ids = [""]
+
+  features {}
 }

@@ -16,7 +16,7 @@ resource "azurerm_virtual_network" "my_terraform_network" {
   resource_group_name = module.resource_group.resource_group_name
   tags                = var.default_tags
 
-  depends_on = [ module.resource_group ]
+  depends_on = [module.resource_group]
 }
 
 resource "azurerm_virtual_network_peering" "peer_a2b" {
@@ -26,5 +26,5 @@ resource "azurerm_virtual_network_peering" "peer_a2b" {
   remote_virtual_network_id    = var.site_b_vnet_id
   allow_virtual_network_access = true
 
-  depends_on = [ module.resource_group, azurerm_virtual_network.my_terraform_network ]
+  depends_on = [module.resource_group, azurerm_virtual_network.my_terraform_network]
 }

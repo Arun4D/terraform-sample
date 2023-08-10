@@ -13,14 +13,14 @@ resource "azurerm_monitor_action_group" "monitor_act_group_bk" {
 }
 
 resource "azurerm_monitor_metric_alert" "monitor_backup_metric_alert" {
-  name                = "backup-metricalert"
-  resource_group_name = var.resource_group_rg_name
-  scopes              = var.monitor_resource_ids
-  description              = "Alert on Backup Health Events"
-  target_resource_type     = "Microsoft.RecoveryServices/vaults"
-  auto_mitigate            = true
-  frequency                = "PT1H"
-  window_size              = "P1D"
+  name                 = "backup-metricalert"
+  resource_group_name  = var.resource_group_rg_name
+  scopes               = var.monitor_resource_ids
+  description          = "Alert on Backup Health Events"
+  target_resource_type = "Microsoft.RecoveryServices/vaults"
+  auto_mitigate        = true
+  frequency            = "PT1H"
+  window_size          = "P1D"
 
   criteria {
     metric_namespace = "Microsoft.RecoveryServices/vaults"
@@ -32,7 +32,7 @@ resource "azurerm_monitor_metric_alert" "monitor_backup_metric_alert" {
     dimension {
       name     = "dataSourceURL"
       operator = "Include"
-      values   = [
+      values = [
         "*"
       ]
     }
@@ -41,7 +41,7 @@ resource "azurerm_monitor_metric_alert" "monitor_backup_metric_alert" {
       name     = "healthStatus"
       operator = "Exclude"
       values   = ["Healthy"]
-    } 
+    }
   }
   action {
     action_group_id = azurerm_monitor_action_group.monitor_act_group_bk.id

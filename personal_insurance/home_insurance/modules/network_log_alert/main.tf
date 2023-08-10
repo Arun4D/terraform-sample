@@ -54,10 +54,10 @@ resource "azurerm_monitor_activity_log_alert" "monitor_metric_alert_nw_delete" {
   scopes              = var.monitor_resource_ids
   description         = "Activity Log Alert for virtualNetworks delete."
 
-   criteria {
+  criteria {
     category       = "Administrative"
     operation_name = "Microsoft.Network/virtualNetworks/delete"
-    level            = "Critical"
+    level          = "Critical"
   }
 
   action {
@@ -73,10 +73,10 @@ resource "azurerm_monitor_activity_log_alert" "monitor_metric_alert_nwi_delete" 
   scopes              = var.monitor_resource_ids
   description         = "Activity Log Alert for networkInterfaces delete."
 
-   criteria {
+  criteria {
     category       = "Administrative"
     operation_name = "Microsoft.Network/networkInterfaces/delete"
-    level            = "Critical"
+    level          = "Critical"
   }
 
   action {
@@ -92,10 +92,10 @@ resource "azurerm_monitor_activity_log_alert" "monitor_metric_alert_routetable_d
   scopes              = var.monitor_resource_ids
   description         = "Activity Log Alert for routeTables delete."
 
-   criteria {
+  criteria {
     category       = "Administrative"
     operation_name = "Microsoft.Network/routeTables/delete"
-    level            = "Critical"
+    level          = "Critical"
   }
 
   action {
@@ -114,7 +114,7 @@ resource "azurerm_monitor_activity_log_alert" "monitor_metric_alert_exp_route_ci
   criteria {
     category       = "Administrative"
     operation_name = "Microsoft.Network/expressRouteCircuits/delete"
-    level            = "Critical"
+    level          = "Critical"
   }
 
   action {
@@ -130,10 +130,10 @@ resource "azurerm_monitor_activity_log_alert" "monitor_metric_alert_vng_delete" 
   scopes              = var.monitor_resource_ids
   description         = "Activity Log Alert for virtualNetworkGateways delete."
 
-   criteria {
+  criteria {
     category       = "Administrative"
     operation_name = "Microsoft.Network/virtualNetworkGateways/delete"
-    level            = "Critical"
+    level          = "Critical"
   }
 
   action {

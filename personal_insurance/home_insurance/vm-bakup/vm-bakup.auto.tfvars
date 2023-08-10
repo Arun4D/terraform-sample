@@ -1,5 +1,5 @@
 resource_group_location     = "eastus"
-resource_group_name        = "ad-terr-rg1"
+resource_group_name         = "ad-terr-rg1"
 vnet_name                   = "myVnet"
 vnet_address_space          = ["10.0.0.0/16"]
 subnet_name                 = "mySubnet"

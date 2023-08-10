@@ -143,9 +143,9 @@ module "resource_assignment_naming_rg" {
 module "resource_assignment_tagging" {
   source = "../modules/policy/policy-assignment/tagging"
 
-  policy_definition_id = module.policy_definition.tagging_policy_id
-  resource_group_id    = module.resource_group.resource_group_id
-  resource_group_name  = module.resource_group.resource_group_name
+  policy_definition_id    = module.policy_definition.tagging_policy_id
+  resource_group_id       = module.resource_group.resource_group_id
+  resource_group_name     = module.resource_group.resource_group_name
   resource_group_location = var.resource_group_location
 
   env        = "dev"

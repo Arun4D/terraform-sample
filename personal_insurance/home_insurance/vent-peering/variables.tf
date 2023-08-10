@@ -2,7 +2,7 @@ variable "resource_group_names" {
 
 }
 variable "site_b_vnet_id" {
-  
+
 }
 variable "resource_group_location" {
   default     = "eastus"

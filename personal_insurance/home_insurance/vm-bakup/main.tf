@@ -54,9 +54,9 @@ module "virtual_machine" {
   my_terraform_nic_id        = module.network.terraform_nic_id
   public_ip_fqdn             = module.network.public_ip_fqdn
   public_ip_address          = module.network.public_ip_address
- # availability_set_id        = module.availability_set.availability_set_id
-  default_tags               = var.default_tags
-  depends_on                 = [module.resource_group, module.network, module.ssh_keys, module.storage]
+  # availability_set_id        = module.availability_set.availability_set_id
+  default_tags = var.default_tags
+  depends_on   = [module.resource_group, module.network, module.ssh_keys, module.storage]
 }
 
 resource "azurerm_recovery_services_vault" "default" {
@@ -66,13 +66,13 @@ resource "azurerm_recovery_services_vault" "default" {
   sku                 = "Standard"
   storage_mode_type   = "LocallyRedundant"
 
-  depends_on                                  = [module.resource_group]
+  depends_on = [module.resource_group]
 }
 
 resource "azurerm_backup_policy_vm" "default" {
-  name                           = "default"
-  resource_group_name            = var.resource_group_name
-  recovery_vault_name            = azurerm_recovery_services_vault.default.name
+  name                = "default"
+  resource_group_name = var.resource_group_name
+  recovery_vault_name = azurerm_recovery_services_vault.default.name
   #policy_type                    = "V2"
 
   # This parameter may not work, depending on things. In theory
@@ -103,7 +103,7 @@ resource "azurerm_backup_policy_vm" "default" {
     weeks    = ["Last"]
   }
 
-  depends_on   = [module.resource_group, azurerm_recovery_services_vault.default]
+  depends_on = [module.resource_group, azurerm_recovery_services_vault.default]
 }
 
 resource "azurerm_backup_protected_vm" "testvm" {
@@ -112,5 +112,5 @@ resource "azurerm_backup_protected_vm" "testvm" {
   source_vm_id        = module.virtual_machine.terraform_vm_id
   backup_policy_id    = azurerm_backup_policy_vm.default.id
 
-  depends_on   = [module.resource_group, azurerm_backup_policy_vm.default, azurerm_recovery_services_vault.default]
+  depends_on = [module.resource_group, azurerm_backup_policy_vm.default, azurerm_recovery_services_vault.default]
 }

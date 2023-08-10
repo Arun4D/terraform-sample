@@ -18,8 +18,8 @@ resource "azurerm_monitor_metric_alert" "monitor_metric_alert" {
   scopes              = var.monitor_resource_ids
   description         = "Action will be triggered when storageAccounts used capacity reached threshold."
 
-  severity            = "3"
-  window_size        = "PT1H"
+  severity    = "3"
+  window_size = "PT1H"
 
   criteria {
     metric_namespace = "Microsoft.Storage/storageAccounts"

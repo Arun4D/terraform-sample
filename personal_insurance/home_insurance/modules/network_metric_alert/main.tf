@@ -44,7 +44,7 @@ resource "azurerm_monitor_metric_alert" "monitor_network_bits_in_critical_metric
   scopes              = var.monitor_resource_ids
   description         = "Action will be triggered when expressRouteCircuits BitsOutPerSecond reach above threshold."
 
-  severity = 0
+  severity             = 0
   target_resource_type = "Microsoft.Network/expressRouteCircuits"
   criteria {
     metric_namespace = "Microsoft.Network/expressRouteCircuits"
@@ -68,7 +68,7 @@ resource "azurerm_monitor_metric_alert" "monitor_network_bits_out_warning_metric
   scopes              = var.monitor_resource_ids
   description         = "Action will be triggered when expressRouteCircuits BitsOutPerSecond reach above threshold."
 
-  severity = 2
+  severity             = 2
   target_resource_type = "Microsoft.Network/expressRouteCircuits"
   criteria {
     metric_namespace = "Microsoft.Network/expressRouteCircuits"
@@ -92,7 +92,7 @@ resource "azurerm_monitor_metric_alert" "monitor_network_bits_out_critical_metri
   scopes              = var.monitor_resource_ids
   description         = "Action will be triggered when expressRouteCircuits BitsOutPerSecond reach above threshold."
 
-  severity = 0
+  severity             = 0
   target_resource_type = "Microsoft.Network/expressRouteCircuits"
   criteria {
     metric_namespace = "Microsoft.Network/expressRouteCircuits"
@@ -116,7 +116,7 @@ resource "azurerm_monitor_metric_alert" "monitor_network_Bgp_critical_metric_ale
   scopes              = var.monitor_resource_ids
   description         = "Action will be triggered when virtualnetworkgateways reach above threshold."
 
-  severity = 0
+  severity             = 0
   target_resource_type = "Microsoft.Network/expressRouteCircuits"
   criteria {
     metric_namespace = "microsoft.network/virtualnetworkgateways"
