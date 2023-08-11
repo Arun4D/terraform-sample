@@ -22,7 +22,17 @@ variable "os_type" {
   description = "virtual machine os type."
 }
 
-variable "azurerm_log_analytics_workspace_id" {
+variable "storage_account_name" {
+  type        = string
+  description = ""
+}
+variable "azurerm_user_assigned_identity_id" {
+  type        = string
+  description = ""
+}
+
+
+variable "storage_account_primary_access_key" {
   type        = string
   description = ""
 }

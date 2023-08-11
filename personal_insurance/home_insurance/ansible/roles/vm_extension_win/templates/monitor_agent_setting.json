@@ -1,0 +1,13 @@
+{
+  "workspaceId"               : "{{ azurerm_log_analytics_workspace_id }}",
+  "azureResourceId"           : "{{azure_resource_id}}",
+  "stopOnMultipleConnections" : false,
+
+  "authentication" : {
+    "managedIdentity" : {
+      "identifier-name"  : "mi_res_id",
+     " identifier-value" : "{{ azurerm_user_assigned_identity_id }}"
+    }
+  }
+
+}

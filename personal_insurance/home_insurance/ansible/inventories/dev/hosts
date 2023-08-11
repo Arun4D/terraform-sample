@@ -11,3 +11,14 @@ filebeat-linux
 
 [elk_win_agent]
 winlogbeat
+
+[azure_vm_agent]
+
+[azure_vm_win_agent_en]
+jump1
+
+[azure_vm_agent:children]
+azure_vm_win_agent
+
+[azure_vm_win_agent:children]
+azure_vm_win_agent_en

@@ -1,3 +1,4 @@
 ---
 collections:
   - name: ibm.qradar
+  - name: azure.azcollection

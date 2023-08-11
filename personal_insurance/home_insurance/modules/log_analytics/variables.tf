@@ -12,17 +12,3 @@ variable "default_tags" {
   type        = map(any)
   description = "Tag for the azure resources"
 }
-
-variable "virtual_machine_id" {
-  type        = string
-  description = "virtual machine id."
-}
-variable "os_type" {
-  type        = string
-  description = "virtual machine os type."
-}
-
-variable "azurerm_log_analytics_workspace_id" {
-  type        = string
-  description = ""
-}

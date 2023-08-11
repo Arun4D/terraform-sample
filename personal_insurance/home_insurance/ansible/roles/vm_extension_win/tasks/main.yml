@@ -1,0 +1,41 @@
+---
+# tasks file for vm_extension_win
+#- name: Get facts for one resource group
+#  azure.azcollection.azure_rm_resourcegroup_info:
+#    name: "ad-terr-rg1"
+
+- name: Install DependencyAgentWindows Windows VM Extension 
+  azure_rm_virtualmachineextension:
+    name: "{{ daw_vm_name }}"
+    location: "{{ azure_location }}"
+    resource_group: "{{ azure_resource_group }}"
+    virtual_machine_name: "{{ daw_virtual_machine_name }}"
+    publisher: "{{ daw_publisher }}"
+    virtual_machine_extension_type: "{{ daw_type }}"
+    type_handler_version: "{{ daw_type_handler_version }}"
+    auto_upgrade_minor_version: "{{ daw_auto_upgrade_minor_version }}"
+
+- name: Install IaaSDiagnostics Windows VM Extension 
+  azure_rm_virtualmachineextension:
+    name: "{{ iaasd_vm_name }}"
+    location: "{{ azure_location }}"
+    resource_group: "{{ azure_resource_group }}"
+    virtual_machine_name: "{{ iaasd_virtual_machine_name }}"
+    publisher: "{{ iaasd_publisher }}"
+    virtual_machine_extension_type: "{{ iaasd_type }}"
+    type_handler_version: "{{ iaasd_type_handler_version }}"
+    settings: "{{ lookup('ansible.builtin.template', 'diagnostics_setting.json') }}"
+    protected_settings: "{{ lookup('ansible.builtin.template', 'diagnostics_protected_settings.json') }}"
+
+- name: Install AzureMonitorWindowsAgent Windows VM Extension 
+  azure_rm_virtualmachineextension:
+    name: "{{ amwa_vm_name }}"
+    location: "{{ azure_location }}"
+    resource_group: "{{ azure_resource_group }}"
+    virtual_machine_name: "{{ amwa_virtual_machine_name }}"
+    publisher: "{{ amwa_publisher }}"
+    virtual_machine_extension_type: "{{ amwa_type }}"
+    type_handler_version: "{{ amwa_type_handler_version }}"
+    auto_upgrade_minor_version: "{{ amwa_auto_upgrade_minor_version }}"
+    settings: "{{ lookup('ansible.builtin.template', 'monitor_agent_setting.json') }}"
+    protected_settings: "{{ lookup('ansible.builtin.template', 'monitor_agent_protected_setting.json') }}"

@@ -1,0 +1,28 @@
+---
+# vars file for vm_extension_win
+
+daw_vm_name : "DependencyAgentWindows_Win_Ext"
+daw_virtual_machine_name : "{{ azure_resource_name }}"
+daw_publisher : "Microsoft.Azure.Monitoring.DependencyAgent"
+daw_type : "DependencyAgentWindows"
+daw_type_handler_version : "9.10"
+daw_auto_upgrade_minor_version : true
+
+iaasd_vm_name : "IaaSDiagnostics_Win_Ext"
+iaasd_virtual_machine_name : "{{ azure_resource_name }}"
+iaasd_publisher : "Microsoft.Azure.Diagnostics"
+iaasd_type : "IaaSDiagnostics"
+iaasd_type_handler_version : "1.22"
+
+
+amwa_vm_name : "AzureMonitorWindowsAgent_Win_Ext"
+amwa_virtual_machine_name : "{{ azure_resource_name }}"
+amwa_publisher : "Microsoft.Azure.Monitor"
+amwa_type : "AzureMonitorWindowsAgent"
+amwa_type_handler_version : "1.18"
+amwa_auto_upgrade_minor_version : true
+
+
+
+
+

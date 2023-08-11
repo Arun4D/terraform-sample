@@ -1,0 +1,4 @@
+{
+  "storageAccountName": "{{ azure_storage_name }}",
+  "storageAccountKey": "{{ azure_storage_primary_access_key }}"
+}

@@ -1,0 +1,12 @@
+---
+#ansible_user: adminuser
+#ansible_password: ""
+#ansible_connection: winrm
+#ansible_host: 40.117.135.0
+#ansible_winrm_port: 5985
+#ansible_winrm_transport: ntlm
+#ansible_winrm_server_cert_validation: ignore
+
+ansible_host: localhost
+azure_resource_id: "/subscriptions/" # virtual machine id
+azure_resource_name: "myVM" # virtual machine name

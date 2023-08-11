@@ -1,0 +1,8 @@
+---
+azure_location: "eastus"
+azure_resource_group: "ad-terr-rg1"
+azure_storage_name: "diag20f03564f3b4a15a"
+azure_storage_primary_access_key: ""
+azurerm_log_analytics_workspace_primary_shared_key: ""
+azurerm_log_analytics_workspace_id: ""
+azurerm_user_assigned_identity_id: ""

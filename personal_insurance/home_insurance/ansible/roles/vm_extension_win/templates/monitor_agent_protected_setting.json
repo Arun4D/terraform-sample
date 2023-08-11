@@ -1,0 +1,3 @@
+{
+  "workspaceKey" : "{{ azurerm_log_analytics_workspace_primary_shared_key }}"
+}

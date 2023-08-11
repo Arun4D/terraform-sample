@@ -1,0 +1,16 @@
+---
+- name: Play for Azure VM extension
+  hosts: azure_vm_win_agent_en
+  #hosts: azure_vm_win_agent_en
+  #remote_user: adminuser
+  vars:
+    ansible_python_interpreter: /home/arun/anaconda3/bin/python3
+  collections:
+    - azure.azcollection
+  roles:
+    - vm_extension_win
+  environment:
+    AZURE_CLIENT_ID: "{{ lookup('env', 'AZURE_CLIENT_ID') }}"
+    AZURE_SECRET: "{{ lookup('env', 'AZURE_SECRET') }}"
+    AZURE_SUBSCRIPTION_ID: "{{ lookup('env', 'AZURE_SUBSCRIPTION_ID') }}"
+    AZURE_TENANT: "{{ lookup('env', 'AZURE_TENANT') }}"

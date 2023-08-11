@@ -25,6 +25,7 @@ ansible-playbook -i inventories/dev filebeat.yml -kK --extra-vars '{"elastic_ver
 
 ansible-playbook -i inventories/dev winlogbeat.yml  --extra-vars '{"ansible_password": "Ans!ble@dmin123", "logstash_host":"localhost"}'
 
+ansible-playbook -i inventories/dev azure_vm_win_extension.yml  --extra-vars '{"ansible_password": ""}'
 
 ````
 
@@ -33,6 +34,19 @@ ansible-playbook -i inventories/dev winlogbeat.yml  --extra-vars '{"ansible_pass
 ```` bash
 sudo apt install python3-pip
 pip install "pywinrm>=0.3.0"
+````
+## Ansible Server - Setup pywinrm and requests
+
+```` bash
+pip install pywinrm 
+pip install requests
+pip install msrest
+````
+Full azure module install
+````bash
+pip install ansible
+wget -nv -q https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt
+pip install -r requirements-azure.txt
 ````
 
 ## Windows Host - Basic Auth enable - [ Not used ]
