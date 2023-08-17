@@ -1,0 +1,12 @@
+---
+# vars file for ibm_was_9
+
+linux_im_install_location_tools: /opt/ibm/installationmanager/eclipse/tools
+linux_ibm_secure_storage_file: /opt/ibm/pwd_storage_file 
+linux_ibm_username: aa@gmail.com
+linux_ibm_userpassword: password
+linux_ibm_repository_url: https://www-147.ibm.com/software/repositorymanager/com.ibm.websphere.BASE.v90/repository.config
+linux_im_install_packages: com.ibm.websphere.BASE.v90 com.ibm.java.jdk.v8
+linux_was9_install_dir: /opt/ibm/websphere/appserver/v9/base
+linux_was9_install_profile_dir: /opt/ibm/websphere/appserver/v9/base
+linux_im_shared_dir: /opt/ibm/installationmanager/imshared

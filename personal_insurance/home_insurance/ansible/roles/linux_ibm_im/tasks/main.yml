@@ -1,0 +1,62 @@
+---
+# tasks file for ibm_im 
+- name: Create a im tmp directory [ {{ linux_im_tmp_dir }} ] if it does not exist
+  ansible.builtin.file:
+    path: "{{ linux_im_tmp_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Create a im log directory [ {{ linux_im_log_dir }} ] if it does not exist
+  ansible.builtin.file:
+    path: "{{ linux_im_log_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Create a im install directory [ {{ linux_im_install_location }} ] if it does not exist
+  ansible.builtin.file:
+    path: "{{ linux_im_install_location }}"
+    state: directory
+    mode: '0755'
+
+- name: Create a im install directory [ {{ linux_im_tmp_dir }}/install ] if it does not exist
+  ansible.builtin.file:
+    path: "{{ linux_im_tmp_dir }}/install"
+    state: directory
+    mode: '0755'
+    
+- name: Install pre-requisites [unzip,tar,wget] Apt
+  ansible.builtin.apt:
+    name: ['unzip', 'tar', 'wget'] 
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install pre-requisites [unzip,tar,wget] Yum
+  yum:
+    name: ['unzip', 'tar', 'wget'] 
+    state: present
+  when:
+    - ansible_os_family == "RedHat"
+    - (ansible_distribution == "RedHat" or ansible_distribution == "CentOS" )
+
+- name: IBM IM zip file permissions
+  ansible.builtin.file: 
+    path: "{{ linux_im_tmp_dir }} "
+    mode: '0775' 
+    state: directory 
+    recurse: yes
+
+
+- name: Unarchive a file that is already on the remote machine
+  ansible.builtin.unarchive:
+    src: "{{ linux_im_tmp_dir }}/{{ im_archive_file }}"
+    dest: "{{ linux_im_tmp_dir }}/install"
+    remote_src: yes
+
+- name: Run silent install to {{ linux_im_install_location }}
+  ansible.builtin.shell: "./installc -installationDirectory {{ linux_im_install_location }} -acceptLicense --launcher.ini silent-install.ini -log {{ linux_im_log_dir }}/im-log.xml"
+  become: yes
+  args:
+    chdir: "{{ linux_im_tmp_dir }}/install"
+  register: im_install
+  changed_when: im_install.rc != 0
+

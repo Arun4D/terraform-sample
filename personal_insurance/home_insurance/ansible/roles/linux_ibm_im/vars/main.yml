@@ -1,0 +1,9 @@
+---
+# vars file for ibm_im
+im_donwload_url: https://ak-delivery04-mul.dhe.ibm.com/sdfdl/v2/sar/CM/RA/0bk9x/0/Xa.2/Xb.jusyLTSp44S03UfRriimDExVn0Id5BlQcd2W48Su1QUTs9YCwu8NCmN3ilY/Xc.CM/RA/0bk9x/0/agent.installer.linux.gtk.x86_64_1.9.2005.20230718_1844.zip/Xd./Xf.LPR.D1VC/Xg.12426053/Xi.habanero/XY.habanero/XZ.85FbttuIdPoZ9CTBrTNKlK2hMR0GcI3X/agent.installer.linux.gtk.x86_64_1.9.2005.20230718_1844.zip
+im_archive_file: agent.installer.linux.gtk.x86_64_1.9.2005.20230718_1844.zip
+linux_im_default_tmp_dir:  /tmp/
+linux_im_tmp_dir: /opt/ibm/binaries/im
+linux_im_log_dir: /opt/ibm/binaries/im/logs
+linux_im_install_location: /opt/ibm/installationmanager
+

@@ -1,0 +1,30 @@
+---
+# tasks file for linux_ibm_was9_profile
+- name: Check WAS9 profile is installed alreay in {{ linux_was9_profile_path }}
+  ansible.builtin.stat:
+    path: "{{ linux_was9_profile_path }}"
+  register: was9_profile_install_dir
+
+- name: Create a im was9 profile directory [ {{ linux_was9_profile_path }} ] if it does not exist
+  ansible.builtin.file:
+    path: "{{ linux_was9_profile_path }}"
+    state: directory
+    recurse: yes
+    mode: '0755'
+  #when: not was9_profile_install_dir.stat.exists
+
+- name: Install WAS9 profile 
+  ansible.builtin.shell: >- 
+    ./manageprofiles.sh
+    -create 
+    -profileName {{ linux_was9_profile_name }}
+    -profilePath {{ linux_was9_profile_path }} 
+    -templatePath {{ linux_was9_template_path }} 
+    -enableAdminSecurity {{ linux_was9_enable_admin_security }}
+    -adminUserName {{ linux_was9_enable_admin_user_name }}
+    -adminPassword {{ linux_was9_enable_admin_password }}
+    -acceptLicense
+  become: yes
+  args:
+    chdir: "{{ linux_was9_install_dir }}/bin"
+  when: not was9_profile_install_dir.stat.exists

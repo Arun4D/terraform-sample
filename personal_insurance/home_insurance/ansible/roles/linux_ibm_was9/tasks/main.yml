@@ -1,0 +1,41 @@
+---
+# tasks file for ibm_was_9
+
+- name: Check saveCredential  is installed already in {{ linux_ibm_secure_storage_file }}
+  ansible.builtin.stat:
+    path: "{{ linux_ibm_secure_storage_file }}"
+  register: ibm_save_cred
+
+- name: Check WAS9 is installed alreay in {{ linux_was9_install_dir }}
+  ansible.builtin.stat:
+    path: "{{ linux_was9_install_dir }}"
+  register: was9_install_dir
+
+- name: Create a im was9 directory [ {{ linux_was9_install_dir }} ] if it does not exist
+  ansible.builtin.file:
+    path: "{{ linux_was9_install_dir }}"
+    state: directory
+    mode: '0755'
+  when: not was9_install_dir.stat.exists
+    
+- name: Run saveCredential
+  ansible.builtin.shell: "./imutilsc saveCredential -secureStorageFile {{ linux_ibm_secure_storage_file }} -userName {{ linux_ibm_username }} -userPassword {{ linux_ibm_userpassword }} -url {{ linux_ibm_repository_url }}"
+  become: yes
+  args:
+    chdir: "{{ linux_im_install_location_tools }}"
+  when: not ibm_save_cred.stat.exists
+
+- name: Install WAS 9 and Java profile
+  ansible.builtin.shell: >- 
+    ./imcl install {{ linux_im_install_packages }} 
+    -repositories {{ linux_ibm_repository_url }} 
+    -installationDirectory {{ linux_was9_install_dir }} 
+    -properties was.install.os400.profile.location={{ linux_was9_install_profile_dir }} 
+    -sharedResourcesDirectory {{ linux_im_shared_dir }} 
+    -secureStorageFile {{ linux_ibm_secure_storage_file }}
+    -acceptLicense
+  become: yes
+  args:
+    chdir: "{{ linux_im_install_location_tools }}"
+  when: not was9_install_dir.stat.exists
+

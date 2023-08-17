@@ -27,6 +27,10 @@ ansible-playbook -i inventories/dev winlogbeat.yml  --extra-vars '{"ansible_pass
 
 ansible-playbook -i inventories/dev azure_vm_win_extension.yml  --extra-vars '{"ansible_password": ""}'
 
+ansible-playbook -i inventories/dev linux_ibm_was9.yml  --extra-vars '{"ansible_password": "", "linux_ibm_username": "arun4.duraisamy@gmail.com", "linux_ibm_userpassword": ""}' -K
+
+ansible-playbook -i inventories/dev linux_ibm_was9_profile.yml  --extra-vars '{"ansible_password": ""}' -K
+
 ````
 
 ## Ansible Server - Setup WinRM
@@ -104,3 +108,6 @@ https://www.ibm.com/support/fixcentral/swg/downloadFixes?parent=IBM%20Security&p
 
 ## Ansbible Built in
 https://docs.ansible.com/ansible/latest/collections/ansible/builtin/index.html
+
+## WAS 
+https://www.ibm.com/support/pages/85520-websphere-application-server-v85520#classic

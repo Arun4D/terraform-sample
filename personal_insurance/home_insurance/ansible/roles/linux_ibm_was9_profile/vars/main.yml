@@ -1,0 +1,10 @@
+---
+# vars file for linux_ibm_was9_profile
+linux_was9_install_dir: /opt/ibm/websphere/appserver/v9/base
+linux_was9_profile_name: myprofile01
+linux_was9_install_profile_dir: /opt/ibm/websphere/appserver/v9
+linux_was9_profile_path: "{{ linux_was9_install_profile_dir }}/profiles/{{ linux_was9_profile_name }}" 
+linux_was9_template_path: "{{ linux_was9_install_dir }}/profileTemplates/management" 
+linux_was9_enable_admin_security: "true"
+linux_was9_enable_admin_user_name: admin
+linux_was9_enable_admin_password: admin123
