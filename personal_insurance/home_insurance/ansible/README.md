@@ -31,6 +31,8 @@ ansible-playbook -i inventories/dev linux_ibm_was9.yml  --extra-vars '{"ansible_
 
 ansible-playbook -i inventories/dev linux_ibm_was9_profile.yml  --extra-vars '{"ansible_password": ""}' -K
 
+ansible-playbook -i inventories/dev app1_dev_sql_2019.yml  --extra-vars '{"ansible_password": ""}' -K
+
 ````
 
 ## Ansible Server - Setup WinRM
@@ -74,7 +76,7 @@ Powershell tls error run the below script
 $url = "https://raw.githubusercontent.com/jborean93/ansible-windows/master/scripts/Upgrade-PowerShell.ps1"
 $file = "$env:temp\Upgrade-PowerShell.ps1"
 $username = "ansibleadmin"
-$password = "&2PxdX]kw)e_%q"
+$password = ""
 
 (New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force

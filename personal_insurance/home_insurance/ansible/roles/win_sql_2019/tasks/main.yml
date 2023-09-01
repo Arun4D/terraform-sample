@@ -1,0 +1,56 @@
+---
+# tasks file for win_sql_2019
+
+- name: Check if file exists using file module
+  ansible.builtin.win_stat:
+    path: C:\\temp\\SQL2019-SSEI-Dev.exe
+  register: sql2019_ssei_dev_status
+
+- name: Check if SQLServer2019-DEV-x64-ENU.exe file exists using file module
+  ansible.builtin.win_stat:
+    path: C:\\temp\\SQLServer2019-DEV-x64-ENU.exe
+  register: sqlserver2019_dev_x64_enu_status
+
+
+- name: Create SQL Server exe file directory
+  ansible.windows.win_file:
+    path: C:\\temp\\
+    state: directory
+
+- name: Copy SQL Server exe file
+  ansible.windows.win_copy:
+    src: /home/arun/software/SQL2019-SSEI-Dev.exe
+    dest: "c:\\temp\\SQL2019-SSEI-Dev.exe"
+  when: not sql2019_ssei_dev_status.stat.exists
+
+- name: Run SQL2019-SSEI-Dev.exe command to extract 
+  ansible.windows.win_command: SQL2019-SSEI-Dev.exe /ACTION=Download MEDIAPATH=C:\temp /QUIET
+  args:
+    chdir: C:\\temp\\
+  when: not sqlserver2019_dev_x64_enu_status.stat.exists
+
+- name: Create SQLServer2019-DEV-x64-ENU file directory in temp folder
+  ansible.windows.win_file:
+    path: C:\\temp\\SQLServer2019-DEV-x64-ENU
+    state: directory
+
+- name: Check if SQLServer2019-DEV-x64-ENU folder is empty before proceeding
+  ansible.windows.win_find:
+    paths: 'C:\\temp\\SQLServer2019-DEV-x64-ENU\\'
+  register: sqlserver2019_dev_x64_enu_ext
+
+- name: Run SQLServer2019-DEV-x64-ENU.exe command to extract 
+  ansible.windows.win_shell: C:\\temp\\SQLServer2019-DEV-x64-ENU.exe /q /x:C:\temp\SQLServer2019-DEV-x64-ENU /QUIET
+  args:
+    chdir: C:\\temp\\
+  when: not sqlserver2019_dev_x64_enu_ext.matched > 0
+
+- name: Copy SQL Config ini file
+  ansible.windows.win_copy:
+    src: files/SQLConfgirationFile.ini
+    dest: C:\\temp\\SQLServer2019-DEV-x64-ENU\\
+
+- name: Install SQL Server 
+  ansible.windows.win_shell: C:\\temp\\SQLServer2019-DEV-x64-ENU\\SETUP.EXE /ConfigurationFile=SQLConfgirationFile.ini
+  args:
+    chdir: C:\\temp\\SQLServer2019-DEV-x64-ENU\\

@@ -1,0 +1,8 @@
+---
+- name: Play for SQL server 2016 deployment
+  hosts: app1_dev_sql_2019
+  remote_user: ansibleadmin
+  #become: true
+
+  roles:
+    - win_sql_2019
