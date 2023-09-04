@@ -1,0 +1,8 @@
+---
+- name: Play for Biztalk 2016 deployment
+  hosts: app1_dev_biztalk_2016
+  remote_user: ansibleadmin
+  #become: true
+
+  roles:
+    - win_biztalk_2016

@@ -1,0 +1,63 @@
+---
+# tasks file for win_biztalk_2016
+
+#- name: Check if VisualStudioSetup exe exists
+#  ansible.builtin.win_stat:
+#    path: C:\\temp\\biztalk\\VisualStudioSetup.exe
+#  register: visual_studio_status
+
+#- name: Download VisualStudioSetup
+#  ansible.windows.win_get_url:
+#    url: https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&channel=Release&version=VS2022&source=VSLandingPage&cid=2030&passive=false
+#    dest: C:\\temp\\biztalk\\VisualStudioSetup.exe
+#  when: not visual_studio_status.stat.exists
+
+#- name: Install VisualStudioSetup
+#  ansible.windows.win_shell: VisualStudioSetup.exe --nocache --wait --noUpdateInstaller --noWeb --allWorkloads --includeRecommended --includeOptional --quiet --norestart
+#  args:
+#    executable: cmd.exe
+#    chdir: C:\\temp\\biztalk\\
+
+- name: Create biztalk install logs directory
+  ansible.windows.win_file:
+    path: C:\\temp\\biztalk\\logs\\
+    state: directory
+
+- name: Check if visual studio  iso file exists
+  ansible.builtin.win_stat:
+    path: C:\\temp\\biztalk\\vs2015.3.com_enu.iso
+  register: vs_status
+
+- name: Download visual studio 
+  ansible.windows.win_get_url:
+    url: https://go.microsoft.com/fwlink/?LinkId=615448
+    dest: C:\\temp\\biztalk\\vs2015.3.com_enu.iso
+  when: not vs_status.stat.exists
+
+- name: Check if visual studio installed already
+  ansible.builtin.win_stat:
+    path: "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\IDE\\devenv.exe"
+  register: vs_installed_status
+
+- name: Ensure visual studio  ISO is mounted
+  community.windows.win_disk_image:
+    image_path: C:\\temp\\biztalk\\vs2015.3.com_enu.iso
+    state: present
+  register: disk_image_out
+  retries: 5
+  delay: 3
+  until: "disk_image_out is succeeded"
+  when: not vs_installed_status.stat.exists
+
+- name: Run installer from mounted visual studio ISO
+  ansible.windows.win_shell: vs_community.exe /quiet /SuppressRefreshPrompt /full /norestart /noweb /l C:/temp/biztalk/logs/vs_setup_log.txt
+  args:
+    executable: cmd.exe
+    chdir: "{{ disk_image_out.mount_paths[0] }}"
+  when: not vs_installed_status.stat.exists
+
+- name: Unmount visual studio ISO
+  community.windows.win_disk_image:
+    image_path: C:\\temp\\biztalk\\vs2015.3.com_enu.iso
+    state: absent
+  when: not vs_installed_status.stat.exists

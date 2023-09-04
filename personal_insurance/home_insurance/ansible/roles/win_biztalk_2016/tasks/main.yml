@@ -1,0 +1,6 @@
+---
+- include_tasks: win_feature.yml
+- include_tasks: win_packages.yml
+- include_tasks: sql_xml.yml
+- include_tasks: visual_studio.yml
+- include_tasks: biztalk.yml
