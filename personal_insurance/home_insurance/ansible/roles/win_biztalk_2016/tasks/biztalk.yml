@@ -24,15 +24,15 @@
 
 - name: Check if Biztalk CAB file exists
   ansible.builtin.win_stat:
-    path: C:\\temp\\biztalk\\BtsRedistWin81EN32.cab
+    path: C:\\temp\\biztalk\\BtsRedistW2K12R2EN64.cab
   register: biztalk_cab_status
 
 
 
 - name: Download Biztalk CAB
   ansible.windows.win_get_url:
-    url: https://go.microsoft.com/fwlink/p/?LinkId=746410
-    dest: C:\\temp\\biztalk\\BtsRedistWin81EN32.cab
+    url: https://go.microsoft.com/fwlink/p/?LinkId=746411
+    dest: C:\\temp\\biztalk\\BtsRedistW2K12R2EN64.cab
   when: not biztalk_cab_status.stat.exists
 
 - name: Create biztalk CAB artifact directory
@@ -41,7 +41,7 @@
     state: directory
 
 - name: Run installer from mounted Biztalk Server ISO
-  ansible.windows.win_shell: expand BtsRedistWin81EN32.cab -F:* C:\temp\biztalk\cab
+  ansible.windows.win_shell: expand BtsRedistW2K12R2EN64.cab -F:* C:\temp\biztalk\cab
   args:
     executable: cmd.exe
     chdir: C:\\temp\\biztalk\\
@@ -57,11 +57,11 @@
     path: C:\\temp\\biztalk\\cab\SQLServer2016_AS_ADOMD.msi
     state: present
 
-#- name: Install Biztalk CAB sqlxml.msi
-#  ansible.windows.win_package:
-#    path: C:\\temp\\biztalk\\cab\sqlxml.msi
-#    state: present
-#    arguments: /q
+- name: Install Biztalk CAB sqlxml.msi
+  ansible.windows.win_package:
+    path: C:\\temp\\biztalk\\cab\sqlxml.msi
+    state: present
+    arguments: /q
 
 - name: Ensure Biztalk Server ISO is mounted
   community.windows.win_disk_image:
@@ -86,7 +86,7 @@
 #    - /NORESTART
 #    - /ADDLOCAL InfoWorkerApps,WMI,BizTalk
 #    - /L C:\\temp\\biztalk\\setup_log.txt [*]
-#    #- /CABPATH C:\\temp\\biztalk\\BtsRedistWin81EN32.cab
+#    #- /CABPATH C:\\temp\\biztalk\\BtsRedistW2K12R2EN64.cab
 
 - name: Run installer from mounted Biztalk Server ISO
   ansible.windows.win_shell: Setup.exe /QUIET /NORESTART /ADDLOCAL ALL /L C:\temp\biztalk\logs\setup_log.txt

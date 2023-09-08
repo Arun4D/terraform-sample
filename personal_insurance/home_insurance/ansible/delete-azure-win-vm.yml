@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  vars:
+    ansible_python_interpreter: /home/arun/anaconda3/bin/python3
+  vars_prompt:
+    - name: rg_name
+      prompt: "Enter rg name to delete"
+  collections:
+    - azure.azcollection
+  environment:
+    AZURE_CLIENT_ID: "{{ lookup('env', 'AZURE_CLIENT_ID') }}"
+    AZURE_SECRET: "{{ lookup('env', 'AZURE_SECRET') }}"
+    AZURE_SUBSCRIPTION_ID: "{{ lookup('env', 'AZURE_SUBSCRIPTION_ID') }}"
+    AZURE_TENANT: "{{ lookup('env', 'AZURE_TENANT') }}"
+
+  tasks:
+    - name: Deleting resource group - "{{ rg_name }}"
+      azure_rm_resourcegroup:
+        name: "{{ rg_name }}"
+        state: absent
+        force_delete_nonempty: true
+      register: rg
+    - debug:
+        var: rg

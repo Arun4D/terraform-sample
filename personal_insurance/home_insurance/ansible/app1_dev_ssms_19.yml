@@ -1,0 +1,8 @@
+---
+- name: Play for SQL Server Management Studio
+  hosts: app1_dev_ssms_19
+  remote_user: ansibleadmin
+  #become: true
+
+  roles:
+    - win_sql_ssms_19

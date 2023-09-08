@@ -1,0 +1,36 @@
+---
+# tasks file for win_sql_ssms_19
+- name: Check if SSMS-Setup-ENU.exe file exists
+  ansible.builtin.win_stat:
+    path: C:\\temp\\SSMS-Setup-ENU.exe
+  register: ssms_status
+
+
+- name: Create temp directory
+  ansible.windows.win_file:
+    path: C:\\temp\\
+    state: directory
+
+- name: Create temp log directory
+  ansible.windows.win_file:
+    path: C:\\temp\\logs
+    state: directory
+
+- name: Download SSMS-Setup-ENU.exe
+  ansible.windows.win_get_url:
+    url: https://aka.ms/ssmsfullsetup
+    dest: C:\\temp\\SSMS-Setup-ENU.exe
+  when: not ssms_status.stat.exists
+
+
+- name: Check if SSMS already installed
+  ansible.builtin.win_stat:
+    path: 'C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\Ssms.exe'
+  register: ssms_installed_status
+
+- name: Run SSMS-Setup-ENU.exe
+  ansible.windows.win_shell: SSMS-Setup-ENU.exe /install /quiet /norestart /log C:/temp/logs/ssms_setup_log.txt
+  args:
+    executable: cmd.exe
+    chdir: C:\\temp\\
+  when: not ssms_installed_status.stat.exists
