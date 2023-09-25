@@ -136,10 +136,10 @@ module "network_log_alert" {
 module "log_analytics" {
   source = "../modules/log_analytics"
 
-  resource_group_rg_name  = module.resource_group.resource_group_name
+  resource_group_rg_name     = module.resource_group.resource_group_name
   resource_group_rg_location = var.resource_group_location
-  default_tags            = var.default_tags
-  depends_on              = [module.virtual_machine_win]
+  default_tags               = var.default_tags
+  depends_on                 = [module.virtual_machine_win]
 }
 
 /* module "virtual_machine_win_extensions" {
@@ -160,14 +160,14 @@ module "log_analytics" {
 module "monitor_vm_logs" {
   source = "../modules/monitor_vm_logs"
 
-  resource_group_rg_name  = module.resource_group.resource_group_name
-  resource_group_rg_location = var.resource_group_location
-  os_type                 = "windows"
-  virtual_machine_id = module.virtual_machine_win.my_windows_vm_id
+  resource_group_rg_name             = module.resource_group.resource_group_name
+  resource_group_rg_location         = var.resource_group_location
+  os_type                            = "windows"
+  virtual_machine_id                 = module.virtual_machine_win.my_windows_vm_id
   azurerm_log_analytics_workspace_id = module.log_analytics.azurerm_log_analytics_workspace_id
-  default_tags            = var.default_tags
-  depends_on              = [module.virtual_machine_win]
-} 
+  default_tags                       = var.default_tags
+  depends_on                         = [module.virtual_machine_win]
+}
 
 
 /* module "monitor_vm_logs" {

@@ -1,0 +1,43 @@
+---
+# tasks file for linux_ibm_mq_explorer
+# https://www.ibm.com/docs/en/ibm-mq/9.1?topic=windows-installing-stand-alone-mq-explorer-linux#q133370_
+
+- name: Create a mq_explorer temp directory if it does not exist
+  ansible.builtin.file:
+    path: /var/tmp/mq_explorer
+    state: directory
+    mode: '0755'
+
+- name: Recursively find file in mq_explorer temp directory  
+  ansible.builtin.find:
+    paths: /var/tmp/mq_explorer
+  register: mq_explorer_status
+
+- name: Recursively find file in mq_explorer installed directory  
+  ansible.builtin.find:
+    paths: /opt/ibm/MQ_Explorer
+  register: mq_explorer_installed
+
+- name: Extract MQ Explorer fom TAR
+  ansible.builtin.unarchive:
+    src: /home/arun/tmp/mq_artifacts/9.3.3.1-IBM-MQ-Explorer-LinuxX64.tar.gz
+    remote_src: true
+    dest: /var/tmp/mq_explorer
+  when: 
+   - not mq_explorer_status.matched > 0
+   - not mq_explorer_installed.matched > 0 
+
+
+- name: Copy silent_install.resp file 
+  ansible.builtin.copy:
+    src: silent_install.resp
+    dest: /var/tmp/mq_explorer/MQExplorer/silent_install.resp
+  when: not mq_explorer_installed.matched > 0
+
+- name: IBM MQ Explorer install
+  ansible.builtin.shell: >- 
+   ./Setup.bin -f silent_install.resp
+  become: true
+  args:
+    chdir: /var/tmp/mq_explorer/MQExplorer/
+  when: not mq_explorer_installed.matched > 0

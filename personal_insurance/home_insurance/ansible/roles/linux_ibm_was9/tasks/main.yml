@@ -20,7 +20,7 @@
     
 - name: Run saveCredential
   ansible.builtin.shell: "./imutilsc saveCredential -secureStorageFile {{ linux_ibm_secure_storage_file }} -userName {{ linux_ibm_username }} -userPassword {{ linux_ibm_userpassword }} -url {{ linux_ibm_repository_url }}"
-  become: yes
+  become: true
   args:
     chdir: "{{ linux_im_install_location_tools }}"
   when: not ibm_save_cred.stat.exists
@@ -34,7 +34,7 @@
     -sharedResourcesDirectory {{ linux_im_shared_dir }} 
     -secureStorageFile {{ linux_ibm_secure_storage_file }}
     -acceptLicense
-  become: yes
+  become: true
   args:
     chdir: "{{ linux_im_install_location_tools }}"
   when: not was9_install_dir.stat.exists

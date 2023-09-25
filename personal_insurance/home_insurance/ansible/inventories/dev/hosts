@@ -47,3 +47,11 @@ azure_vm_win_ssms_19
 [azure_vm_win_ssms_19]
 app1_dev_ssms_19
 
+[ibm_mq_explorer]
+
+[ibm_mq_explorer_linux:children]
+ibm_mq_explorer_9_2_linux
+
+[ibm_mq_explorer_9_2_linux]
+app1_dev_mq_explorer_9_2
+

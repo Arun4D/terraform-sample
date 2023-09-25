@@ -1,0 +1,59 @@
+# Large-size infrastructure using Terraform
+
+## Format Terraform code
+
+````bash
+cd home_insurance
+./script/terraform-fmt.sh
+````
+
+## Scan  Terraform code for Violation 
+
+````bash
+terrascan scan -t azure -i terraform
+````
+
+
+## Terraform run steps
+
+1. Initialize Terraform
+
+````bash
+terraform init -upgrade
+````
+
+2. Create a Terraform execution plan
+
+````bash
+terraform plan -out main.tfplan
+````
+3. Apply a Terraform execution plan
+
+````bash    
+    terraform apply main.tfplan
+````
+4. Verify the results
+
+````bash
+az group show --name <resource_group_name>
+````
+
+5. Clean up resources
+
+````bash
+terraform plan -destroy -out main.destroy.tfplan
+````
+
+6. Apply a Terraform execution plan to destroy
+
+````bash
+terraform apply main.destroy.tfplan
+````
+
+
+
+https://stackoverflow.com/questions/58343258/iterate-over-nested-data-with-for-for-each-at-resource-level
+
+https://dev.azure.com/akarshpraveenraj/DevOps-LAB
+
+https://github.com/tkubica12/azure-sandbox-governance/blob/e747950f855ae617cad12619d7762327d5efc660/policies/policyDefinitions.tf

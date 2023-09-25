@@ -1,0 +1,123 @@
+---
+# tasks file for linux_ibm_mq
+# https://www.ibm.com/support/fixcentral/swg/selectFixes?parent=ibm~WebSphere&product=ibm/WebSphere/WebSphere+MQ&release=9.3.0.0&platform=All&function=fixid&fixids=*-IBM-MQ-*-FP*
+# https://www.ibm.com/resources/mrs/assets?source=ibmmqtrial
+# https://www.ibm.com/docs/en/ibm-mq/9.3?topic=imluud-installing-mq-client-linux-ubuntu-using-debian-packages
+
+- name: Create a MQ temp directory if it does not exist
+  ansible.builtin.file:
+    path: /var/tmp/mq
+    state: directory
+    mode: '0755'
+
+- name: Recursively find file in mq_explorer temp directory  
+  ansible.builtin.find: 
+    paths: /var/tmp/mq
+  register: mq_status
+
+- name: Recursively find file in MQ installed directory  
+  ansible.builtin.find:
+    paths: /opt/mqm/bin
+  become: true
+  register: mq_installed
+
+- name: Extract MQ fom TAR
+  ansible.builtin.unarchive:
+    src: /home/arun/tmp/mq_artifacts/9.3.0.0-IBM-MQTRIAL-UbuntuLinuxX64.tar.gz
+    remote_src: true
+    dest: /var/tmp/mq
+  when: 
+    - not mq_status.matched > 0
+    - not mq_installed.matched > 0
+
+#- name: Add specified repository into sources list using specified filename
+#  ansible.builtin.apt_repository:
+#    repo: "deb [trusted=yes] file:/var/tmp/mq ./"
+#    state: present
+
+- name: Copy IBM_MQ.list file 
+  ansible.builtin.copy:
+    src: IBM_MQ.list
+    dest: /etc/apt/sources.list.d/IBM_MQ.list
+  become: true
+  when: not mq_installed.matched > 0
+  
+- name: IBM MQ Accept License
+  ansible.builtin.shell: >- 
+   ./mqlicense.sh -accept
+  become: true
+  args:
+    chdir: /var/tmp/mq/MQServer
+
+- name: Update OS packages
+  ansible.builtin.shell: >- 
+   apt-get -y update
+  become: true
+  args:
+    chdir: /var/tmp/mq/MQServer
+  when: not mq_installed.matched > 0
+
+- name: install IBM MQ Server
+  ansible.builtin.shell: >- 
+    apt-get -y install ibmmq-server 
+  become: true
+  args:
+    chdir: /var/tmp/mq/MQServer
+  when: not mq_installed.matched > 0
+
+- name: install IBM MQ Client
+  ansible.builtin.shell: >- 
+    apt-get -y install ibmmq-runtime ibmmq-gskit ibmmq-client ibmmq-java ibmmq-jre ibmmq-sdk
+  become: true
+  args:
+    chdir: /var/tmp/mq/MQServer
+  when: not mq_installed.matched > 0
+
+- name: Recursively change permission of a directory
+  ansible.builtin.file:
+    path: /opt/mqm/bin
+    state: directory
+    recurse: yes
+    mode: '0755'
+  become: true
+    
+- name: Create dummy.queue.manager IBM MQ 
+  ansible.builtin.shell: >- 
+    ./crtmqm -c "dummy test" -ll -q dummy.queue.manager
+  #become: true
+  #become_user: mqm
+  args:
+    chdir: /opt/mqm/bin
+
+- name: Start dummy.queue.manager IBM MQ 
+  ansible.builtin.shell: >- 
+    ./strmqm dummy.queue.manager
+  #become: true
+  #become_user: root
+  args:
+    chdir: /opt/mqm/bin
+
+# ./setmqaut -m dummy -t qmgr -p arun +connect
+# ./setmqaut -m dummy -n dummy -t q -p arun +all
+# ./setmqaut -m dummy -t queue -n RED.LOCAL.QUEUE -g arun +browse -get +put
+
+# ./runmqsc dummy
+# ALTER CHANNEL(SYSTEM.DEF.SVRCONN) CHLTYPE(SVRCONN) MCAUSER('root')
+# ./setmqaut -m dummy -n '**' -t queue -g mqm +alladm +browse
+
+#DEFINE LISTENER(LISTENER) TRPTYPE(TCP) CONTROL(QMGR) PORT(1414)
+# START LISTENER(LISTENER) 
+# DISPLAY LSSTATUS(*) PORT
+# SET CHLAUTH(SYSTEM.DEF.*) TYPE(BLOCKUSER) USERLIST('nobody')
+
+#DEFINE CHANNEL(CHAN2) CHLTYPE(SVRCONN) TRPTYPE(TCP) DESCR('Server-connection to Client_2')
+
+#SET CHLAUTH(CHAN2) TYPE(ADDRESSMAP) ADDRESS('127.0.0.1') MCAUSER('root')   
+#SET CHLAUTH(CHAN2) TYPE(ADDRESSMAP) ADDRESS('127.0.0.1') MCAUSER('arun')
+#SET CHLAUTH(CHAN2) TYPE(ADDRESSMAP) ADDRESS('127.0.0.1') MCAUSER('mqm')
+
+#SET CHLAUTH(CHAN2) TYPE(BLOCKUSER) USERLIST('nobody')
+
+#DEFINE CHANNEL(CHAN2) CHLTYPE(CLNTCONN) TRPTYPE(TCP) CONNAME('arun-Lenovo-G470') QMNAME(dummy) DESCR('Client-connection to Server_2')
+
+#SET CHLAUTH(CHAN2) TYPE(ADDRESSMAP) ADDRESS('127.0.0.1') MCAUSER('root')

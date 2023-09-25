@@ -11,13 +11,13 @@ resource "azurerm_virtual_machine_extension" "vm_ext_windows" {
 }
 
 resource "azurerm_virtual_machine_extension" "vm_ext_iaas_windows" {
-  name                       = "IaaSDiagnostics"
-  virtual_machine_id         = var.virtual_machine_id
-  publisher                  = "Microsoft.Azure.Diagnostics"
-  type                       = "IaaSDiagnostics"
-  type_handler_version       = "1.22"
+  name                 = "IaaSDiagnostics"
+  virtual_machine_id   = var.virtual_machine_id
+  publisher            = "Microsoft.Azure.Diagnostics"
+  type                 = "IaaSDiagnostics"
+  type_handler_version = "1.22"
 
-   settings = templatefile(format("%s/diagnostics.json", path.module), {
+  settings = templatefile(format("%s/diagnostics.json", path.module), {
     resource_id  = var.virtual_machine_id
     storage_name = var.storage_account_name
   })
@@ -39,7 +39,7 @@ resource "azurerm_virtual_machine_extension" "vm_ext_win_agent_windows" {
   automatic_upgrade_enabled  = true
   auto_upgrade_minor_version = true
 
-settings = jsonencode({
+  settings = jsonencode({
     workspaceId               = var.azurerm_log_analytics_workspace_id
     azureResourceId           = var.virtual_machine_id
     stopOnMultipleConnections = false

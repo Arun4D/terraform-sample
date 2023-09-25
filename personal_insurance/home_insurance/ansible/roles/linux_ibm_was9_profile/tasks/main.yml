@@ -24,7 +24,7 @@
     -adminUserName {{ linux_was9_enable_admin_user_name }}
     -adminPassword {{ linux_was9_enable_admin_password }}
     -acceptLicense
-  become: yes
+  become: true
   args:
     chdir: "{{ linux_was9_install_dir }}/bin"
   when: not was9_profile_install_dir.stat.exists

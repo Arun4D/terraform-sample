@@ -54,7 +54,7 @@
 
 - name: Run silent install to {{ linux_im_install_location }}
   ansible.builtin.shell: "./installc -installationDirectory {{ linux_im_install_location }} -acceptLicense --launcher.ini silent-install.ini -log {{ linux_im_log_dir }}/im-log.xml"
-  become: yes
+  become: true
   args:
     chdir: "{{ linux_im_tmp_dir }}/install"
   register: im_install

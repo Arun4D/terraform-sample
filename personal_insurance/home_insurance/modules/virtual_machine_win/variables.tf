@@ -43,3 +43,7 @@ variable "availability_set_id" {
   default     = ""
   description = "availability set id."
 }
+
+variable "disk_encryption_set_id" {
+  
+}

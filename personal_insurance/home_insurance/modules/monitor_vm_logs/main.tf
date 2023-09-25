@@ -52,26 +52,26 @@ resource "azurerm_monitor_data_collection_rule" "dcr_windows" {
   location            = var.resource_group_rg_location
 
   destinations {
-   log_analytics {
-     workspace_resource_id = var.azurerm_log_analytics_workspace_id
-     name                  = "log-analytics"
-   }
+    log_analytics {
+      workspace_resource_id = var.azurerm_log_analytics_workspace_id
+      name                  = "log-analytics"
+    }
   }
- 
- data_flow {
-   streams      = ["Microsoft-Event"]
-   destinations = ["log-analytics"]
- }
- 
- data_sources {
-   windows_event_log {
-     streams = ["Microsoft-Event"]
-     x_path_queries = ["Application!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0 or Level=5)]]",
-       "Security!*[System[(band(Keywords,13510798882111488))]]",
-     "System!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0 or Level=5)]]"]
-     name = "eventLogsDataSource"
-   }
- }
+
+  data_flow {
+    streams      = ["Microsoft-Event"]
+    destinations = ["log-analytics"]
+  }
+
+  data_sources {
+    windows_event_log {
+      streams = ["Microsoft-Event"]
+      x_path_queries = ["Application!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0 or Level=5)]]",
+        "Security!*[System[(band(Keywords,13510798882111488))]]",
+      "System!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0 or Level=5)]]"]
+      name = "eventLogsDataSource"
+    }
+  }
 }
 
 
@@ -131,13 +131,13 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "linuxVMalert" {
 
   tags = var.default_tags
 
-  depends_on = [  azurerm_monitor_action_group.monitor_act_group_vm]
+  depends_on = [azurerm_monitor_action_group.monitor_act_group_vm]
 }
 
 
 resource "azurerm_monitor_diagnostic_setting" "example" {
-  name               = "example"
-  target_resource_id = var.virtual_machine_id
+  name                       = "example"
+  target_resource_id         = var.virtual_machine_id
   log_analytics_workspace_id = var.azurerm_log_analytics_workspace_id
 
 

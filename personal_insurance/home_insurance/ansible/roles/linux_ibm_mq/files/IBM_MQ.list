@@ -1,0 +1,3 @@
+
+# Local directory containing IBM MQ packages 
+deb [trusted=yes] file:/var/tmp/mq/MQServer ./
