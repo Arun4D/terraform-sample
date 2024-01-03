@@ -1,0 +1,8 @@
+---
+- name: Play for SQL server 2016 deployment
+  hosts: app1_dev_sql_2016
+  #remote_user: admin01
+  #become: true
+
+  roles:
+    - win_sql_2016

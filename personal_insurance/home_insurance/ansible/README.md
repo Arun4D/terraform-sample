@@ -33,6 +33,8 @@ ansible-playbook -i inventories/dev linux_ibm_was9_profile.yml  --extra-vars '{"
 
 ansible-playbook -i inventories/dev app1_dev_sql_2019.yml  --extra-vars '{"ansible_password": ""}' -K
 
+ansible-playbook -i inventories/dev app1_dev_sql_2016.yml  --extra-vars '{"ansible_password": ""}' -K
+
 ansible-playbook -i inventories/dev app1_dev_biztalk_2016.yml  --extra-vars '{"ansible_password": ""}' -K
 
 ansible-playbook -i inventories/dev azure-win-vm.yml -K

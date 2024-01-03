@@ -1,0 +1,9 @@
+---
+ansible_user: admin01
+ansible_password: ""
+ansible_connection: winrm
+ansible_host: 172.172.236.172
+ansible_winrm_port: 5985
+ansible_winrm_transport: ntlm
+ansible_winrm_server_cert_validation: ignore
+

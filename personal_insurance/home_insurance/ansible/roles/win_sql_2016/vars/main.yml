@@ -1,0 +1,11 @@
+---
+# vars file for win_sql_2019
+#https://download.microsoft.com/download/a/7/7/a77b5753-8fe7-4804-bfc5-591d9a626c98/SQLServer2016SP3-KB5003279-x64-ENU.exe
+ansible_sql_server_installer_software_path: /home/arun/software/SQLServer2016-SSEI-Eval.exe
+win_temp_path: c:\temp\
+win_temp_folder_sql_server_installer: SQLServer2016-SSEI-Eval
+win_sql_server_installer_name: SQLServer2016-SSEI-Eval.exe
+win_sql_server_installer_name_iso: SQLServer2016SP2-FullSlipstream-x64-ENU.iso
+win_sql_server_installer_dir: sqlserver2016_setup
+win_sql_server_sqlsysadminaccounts_param: ad-sqlserver201\admin01
+win_sql_server_sapwd_param: A@m

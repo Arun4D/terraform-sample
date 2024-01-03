@@ -1,0 +1,157 @@
+---
+# tasks file for win_sql_2019
+
+- name: Check if win temp folder exists 
+  ansible.builtin.win_stat:
+    path: "{{win_temp_path}}"
+  register: tmp_path
+
+- name: Create SQL Server exe file directory
+  ansible.windows.win_file:
+    path: "{{win_temp_path}}"
+    state: directory
+  when: not tmp_path.stat.exists
+  
+- name: Check if sql server exe file exists 
+  ansible.builtin.win_stat:
+    path: "{{win_temp_path}}{{win_sql_server_installer_name}}"
+  register: ss_installer
+
+- name: Check if sql server installer extract folder exists 
+  ansible.builtin.win_stat:
+    path: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}"
+  register: ss_installer_folder
+
+- name: Create SQL Server installer extract folder directory
+  ansible.windows.win_file:
+    path: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}"
+    state: directory
+  when: not ss_installer_folder.stat.exists
+
+
+# https://download.microsoft.com/download/a/7/7/a77b5753-8fe7-4804-bfc5-591d9a626c98/SQLServer2016SP3-KB5003279-x64-ENU.exe
+- name: Copy SQL Server exe file
+  ansible.windows.win_copy:
+    src: "{{ansible_sql_server_installer_software_path}}"
+    dest: "{{win_temp_path}}{{win_sql_server_installer_name}}"
+  when: not ss_installer.stat.exists
+
+
+- name: Check if SQL server extract folder is not empty before proceeding
+  ansible.windows.win_find:
+    paths: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}"
+  register: ss_installer_files
+
+
+- name: Run SQL Server exe command to extract 
+  ansible.windows.win_shell: '{{win_temp_path}}{{win_sql_server_installer_name}} /q /x:{{win_temp_path}}{{win_temp_folder_sql_server_installer}} /QUIET'
+  args:
+    chdir: "{{win_temp_path}}"
+  when: not ss_installer_files.matched > 0
+
+#- name: Copy SQL Config ini file
+#  ansible.windows.win_copy:
+#    src: files/SQLConfgirationFile.ini
+#    dest: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}"
+
+- name: Copy SQL Config ini file from a template
+  ansible.builtin.template:
+    src: files/SQLConfgirationFile.ini.j2
+    dest: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\SQLConfgirationFile.ini"
+
+#- name: Install SQL Server 
+#  ansible.windows.win_shell: '{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\SETUP.EXE /qb ConfigurationFile=SQLConfgirationFile.ini'
+#  args:
+#    chdir: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}"
+
+#
+#ISO File mount and run
+#
+- name: Check if SQLServer2016-SSEI ISO file exists 
+  ansible.builtin.win_stat:
+    path: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_name_iso}}"
+  register: ss_iso
+
+- name: Check SQLServer2016-SSEI ISO file exists
+  ansible.builtin.debug:
+    msg: "File_Not_Found_Error: File {{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_name_iso}} not found"
+  when: not ss_iso.stat.exists
+
+- meta: end_play
+  when: not ss_iso.stat.exists
+  
+#- name: Check if SQLServer2016-SSEI Setup directory exists
+#  ansible.builtin.win_stat:
+#    path: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_dir}}"
+#  register: ss_setup_dir
+
+#- name: Create SQLServer2016-SSEI Setup directory 
+#  ansible.windows.win_file:
+#    path: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_dir}}"
+#    state: directory
+#  when: not ss_setup_dir.stat.exists
+
+#- name: Unzip SQLServer2016-SSEI ISO  file
+#  ansible.builtin.unarchive:
+#    src: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_name_iso}}"
+#    dest: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_dir}}"
+#    remote_src: yes
+#  register: unzip_iso_result
+
+- name: Ensure SQLServer2016-SSEI ISO is mounted
+  community.windows.win_disk_image:
+    image_path: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_name_iso}}"
+    state: present
+  register: disk_image_out
+  retries: 5
+  delay: 3
+  until: "disk_image_out is succeeded"
+  when: ss_iso.stat.exists
+
+- name: Print SQLServer2016-SSEI ISO  mounted path
+  ansible.builtin.debug:
+    msg: "ISO Path: {{ disk_image_out.mount_paths[0] }}"
+
+#- name: Check if SQL server installer folder is not empty before proceeding
+#  ansible.windows.win_find:
+#    paths: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_dir}}"
+#  register: ss_installer_dir_files
+
+#- name: Copy SQLServer2016-SSEI ISO files to local directory
+#  ansible.windows.win_copy:
+#    src: "{{ disk_image_out.mount_paths[0] }}"
+#    dest: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_dir}}"
+#    remote_src: true
+#  when: not ss_installer_dir_files.matched > 0
+
+
+#- name: Copy SQL Config ini file
+#  ansible.windows.win_copy:
+#    src: files/SQLConfgirationFile.ini
+#    dest: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_dir}}"
+
+#- name: Install SQL Server 
+#  ansible.windows.win_shell: setup.exe /ConfigurationFile=SQLConfgirationFile.ini
+#  args:
+#    executable: cmd.exe
+#    chdir: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_dir}}"
+
+- name: Check SQL Server 2016 installation status
+  win_shell: Get-ItemProperty -Path "HKLM:\Software\Microsoft\Microsoft SQL Server\130" -ErrorAction SilentlyContinue
+  register: sql_server_check_result
+
+- name: Display SQL Server installation status
+  debug:
+    msg: "SQL Server 2016 is {% if sql_server_check_result.rc == 0 %}installed{% else %}not installed{% endif %}"
+    
+- name: Run installer from mounted SQLServer2016-SSEI ISO Path
+  ansible.windows.win_shell: "setup.exe /ConfigurationFile={{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\SQLConfgirationFile.ini"
+  args:
+    executable: cmd.exe
+    chdir: "{{ disk_image_out.mount_paths[0] }}"
+  when: sql_server_check_result.rc != 0
+
+- name: Unmount SQLServer2016-SSEI ISO
+  community.windows.win_disk_image:
+    image_path: "{{win_temp_path}}{{win_temp_folder_sql_server_installer}}\\{{win_sql_server_installer_name_iso}}"
+    state: absent

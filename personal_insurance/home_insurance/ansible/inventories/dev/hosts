@@ -27,9 +27,13 @@ azure_vm_win_agent_en
 
 [azure_vm_win_sql:children]
 azure_vm_win_sql_2019
+azure_vm_win_sql_2016
 
 [azure_vm_win_sql_2019]
 app1_dev_sql_2019
+
+[azure_vm_win_sql_2016]
+app1_dev_sql_2016
 
 [azure_vm_win_biztalk]
 
