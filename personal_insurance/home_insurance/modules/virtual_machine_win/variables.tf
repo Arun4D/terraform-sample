@@ -47,3 +47,7 @@ variable "availability_set_id" {
 variable "disk_encryption_set_id" {
   
 }
+variable "image_publisher" {default = "MicrosoftWindowsServer"}
+variable "image_offer" {default = "WindowsServer"}
+variable "image_sku" {default = "2016-Datacenter"}
+variable "image_version" {default = "latest"}

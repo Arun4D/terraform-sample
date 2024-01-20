@@ -16,10 +16,10 @@ resource "azurerm_windows_virtual_machine" "my_windows_vm" {
   }
 
   source_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2016-Datacenter"
-    version   = "latest"
+    publisher = var.image_publisher
+    offer     = var.image_offer
+    sku       = var.image_sku
+    version   = var.image_version
   }
   boot_diagnostics {
     storage_account_uri = var.primary_blob_endpoint
