@@ -3,7 +3,7 @@ resource "azurerm_windows_virtual_machine" "my_windows_vm" {
   location              = var.resource_group_rg_location
   resource_group_name   = var.resource_group_rg_name
   network_interface_ids = [var.my_terraform_nic_id]
-  size                  = "Standard_F2"
+  size                  = var.size
   admin_username        = "adminuser"
   admin_password        = "P@$$w0rd1234!"
   computer_name         = "myvm"
@@ -12,7 +12,7 @@ resource "azurerm_windows_virtual_machine" "my_windows_vm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    disk_encryption_set_id = var.disk_encryption_set_id
+    //disk_encryption_set_id = var.disk_encryption_set_id
   }
 
   source_image_reference {

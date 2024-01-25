@@ -43,10 +43,12 @@ variable "availability_set_id" {
   default     = ""
   description = "availability set id."
 }
-
-variable "disk_encryption_set_id" {
-  
+variable "size" {
+default = "Standard_F2"
 }
+/*variable "disk_encryption_set_id" {
+
+}*/
 variable "image_publisher" {default = "MicrosoftWindowsServer"}
 variable "image_offer" {default = "WindowsServer"}
 variable "image_sku" {default = "2016-Datacenter"}
