@@ -7,6 +7,7 @@ resource "azurerm_windows_virtual_machine" "my_windows_vm" {
   admin_username        = "adminuser"
   admin_password        = "P@$$w0rd1234!"
   computer_name         = "myvm"
+  zone                  = var.zone
   # Not enabled for student subscription
   # encryption_at_host_enabled = true
   os_disk {

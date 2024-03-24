@@ -1,0 +1,36 @@
+---
+- name: Ensure A record is present
+  community.general.ipa_dnsrecord:
+    ipa_host: ipa.example.com
+    ipa_pass: YourSecretPassword
+    state: present
+    zone_name: idm.example.com
+    record_name: host1
+    record_type: A
+    record_value: 192.168.122.45
+  register: biztalk_cab_status
+
+- name: Ensure PTR record is present
+  community.general.ipa_dnsrecord:
+    ipa_host: ipa.example.com
+    ipa_pass: YourSecretPassword
+    state: present
+    zone_name: 2.168.192.in-addr.arpa
+    record_name: 45
+    record_type: PTR
+    record_value: host1.idm.example.com
+
+# tasks file for win_dns_record
+- name: Remove static record
+  community.windows.win_dns_record:
+    name: "db1"
+    type: "A"
+    state: absent
+    zone: "amer.example.com"
+
+- name: Create database server alias
+  community.windows.win_dns_record:
+    name: "db1"
+    type: "CNAME"
+    value: "cgyl1404p.amer.example.com"
+    zone: "amer.example.com"
