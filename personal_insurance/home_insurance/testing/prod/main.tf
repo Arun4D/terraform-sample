@@ -1,5 +1,5 @@
 module "resource_group" {
-  source = "../modules/resource_group"
+  source = "../../modules/resource_group"
 
   for_each = toset(var.resource_group_names)
 
@@ -10,7 +10,7 @@ module "resource_group" {
 
 
 module "network" {
-  source = "../modules/network"
+  source = "../../modules/network"
 
   vnet_name                                   = var.vnet_name
   vnet_address_space                          = var.vnet_address_space
@@ -30,7 +30,7 @@ module "network" {
 }
 
 module "storage" {
-  source = "../modules/storage"
+  source = "../../modules/storage"
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
@@ -40,12 +40,12 @@ module "storage" {
 }
 
 module "ssh_keys" {
-  source = "../modules/ssh_keys"
+  source = "../../modules/ssh_keys"
 
 }
 
 module "route_table" {
-  source = "../modules/route_table"
+  source = "../../modules/route_table"
 
   resource_group_rg_location    = var.resource_group_location
   resource_group_rg_name        = module.resource_group.resource_group_name
@@ -58,7 +58,7 @@ module "route_table" {
 }
 
 module "availability_set" {
-  source = "../modules/availability_set"
+  source = "../../modules/availability_set"
 
   resource_group_rg_location   = var.resource_group_location
   resource_group_rg_name       = module.resource_group.resource_group_name
@@ -73,7 +73,7 @@ module "availability_set" {
 }
 
 module "virtual_machine" {
-  source = "../modules/virtual_machine"
+  source = "../../modules/virtual_machine"
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
@@ -88,7 +88,7 @@ module "virtual_machine" {
 }
 
 module "monitor" {
-  source = "../modules/monitor"
+  source = "../../modules/monitor"
 
   resource_group_rg_name = module.resource_group.resource_group_name
   monitor_resource_ids   = [module.virtual_machine.terraform_vm_id]
@@ -97,7 +97,7 @@ module "monitor" {
 }
 
 module "file_share" {
-  source = "../modules/backup/file_share"
+  source = "../../modules/backup/file_share"
 
   resource_group_rg_location                     = var.resource_group_location
   resource_group_rg_name                         = module.resource_group.resource_group_name

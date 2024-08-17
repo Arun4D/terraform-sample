@@ -1,5 +1,5 @@
 module "resource_group" {
-  source = "../modules/resource_group"
+  source = "../../modules/resource_group"
 
 
   resource_group_name     = var.resource_group_name
@@ -9,7 +9,7 @@ module "resource_group" {
 
 
 module "network" {
-  source = "../modules/network"
+  source = "../../modules/network"
 
   vnet_name                                   = var.vnet_name
   vnet_address_space                          = var.vnet_address_space
@@ -29,7 +29,7 @@ module "network" {
 }
 
 module "storage" {
-  source = "../modules/storage"
+  source = "../../modules/storage"
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
@@ -39,13 +39,13 @@ module "storage" {
 }
 
 module "ssh_keys" {
-  source = "../modules/ssh_keys"
+  source = "../../modules/ssh_keys"
 
 }
 
 
 /* module "virtual_machine" {
-  source = "../modules/virtual_machine"
+  source = "../../modules/virtual_machine"
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
@@ -60,7 +60,7 @@ module "ssh_keys" {
 } */
 
 module "virtual_machine_win" {
-  source = "../modules/virtual_machine_win"
+  source = "../../modules/virtual_machine_win"
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
@@ -86,7 +86,7 @@ resource "azurerm_recovery_services_vault" "default" {
 }
 
 module "backup_metric_alert" {
-  source = "../modules/backup_metric_alert"
+  source = "../../modules/backup_metric_alert"
 
   resource_group_rg_name = module.resource_group.resource_group_name
   monitor_resource_ids   = [azurerm_recovery_services_vault.default.id]
@@ -95,7 +95,7 @@ module "backup_metric_alert" {
 }
 
 module "server_metric_alert" {
-  source = "../modules/server_metric_alert"
+  source = "../../modules/server_metric_alert"
 
   resource_group_rg_name = module.resource_group.resource_group_name
   monitor_resource_ids   = [module.virtual_machine.terraform_vm_id]
@@ -104,7 +104,7 @@ module "server_metric_alert" {
 }
 
 module "storage_metric_alert" {
-  source = "../modules/storage_metric_alert"
+  source = "../../modules/storage_metric_alert"
 
   resource_group_rg_name = module.resource_group.resource_group_name
   monitor_resource_ids   = [module.storage.storage_account]
@@ -115,7 +115,7 @@ module "storage_metric_alert" {
 data "azurerm_subscription" "current" {}
 
 module "network_log_alert" {
-  source = "../modules/network_log_alert"
+  source = "../../modules/network_log_alert"
 
   resource_group_rg_name = module.resource_group.resource_group_name
   monitor_resource_ids   = [data.azurerm_subscription.current.id]
@@ -124,7 +124,7 @@ module "network_log_alert" {
 } */
 
 /* module "network_metric_alert" {
-  source = "../modules/network_metric_alert"
+  source = "../../modules/network_metric_alert"
 
   resource_group_rg_name     = module.resource_group.resource_group_name
   monitor_resource_ids     = [data.azurerm_subscription.current.id]
@@ -134,7 +134,7 @@ module "network_log_alert" {
 
 
 module "log_analytics" {
-  source = "../modules/log_analytics"
+  source = "../../modules/log_analytics"
 
   resource_group_rg_name     = module.resource_group.resource_group_name
   resource_group_rg_location = var.resource_group_location
@@ -143,7 +143,7 @@ module "log_analytics" {
 }
 
 /* module "virtual_machine_win_extensions" {
-  source = "../modules/virtual_machine_win_extensions"
+  source = "../../modules/virtual_machine_win_extensions"
 
   resource_group_rg_name  = module.resource_group.resource_group_name
   resource_group_rg_location = var.resource_group_location
@@ -158,7 +158,7 @@ module "log_analytics" {
 } */
 
 module "monitor_vm_logs" {
-  source = "../modules/monitor_vm_logs"
+  source = "../../modules/monitor_vm_logs"
 
   resource_group_rg_name             = module.resource_group.resource_group_name
   resource_group_rg_location         = var.resource_group_location
@@ -171,7 +171,7 @@ module "monitor_vm_logs" {
 
 
 /* module "monitor_vm_logs" {
-  source = "../modules/monitor_vm_logs"
+  source = "../../modules/monitor_vm_logs"
 
   resource_group_rg_name  = module.resource_group.resource_group_name
   resource_group_rg_location = var.resource_group_location

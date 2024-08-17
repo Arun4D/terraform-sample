@@ -1,5 +1,5 @@
 module "resource_group" {
-  source = "../modules/resource_group"
+  source = "../../modules/resource_group"
 
 
   resource_group_name     = var.resource_group_name
@@ -9,7 +9,7 @@ module "resource_group" {
 
 
 module "network" {
-  source = "../modules/network"
+  source = "../../modules/network"
 
   vnet_name                                   = var.vnet_name
   vnet_address_space                          = var.vnet_address_space
@@ -29,7 +29,7 @@ module "network" {
 }
 
 module "storage" {
-  source = "../modules/storage"
+  source = "../../modules/storage"
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
@@ -39,13 +39,13 @@ module "storage" {
 }
 
 module "ssh_keys" {
-  source = "../modules/ssh_keys"
+  source = "../../modules/ssh_keys"
 
 }
 
 
 module "virtual_machine" {
-  source = "../modules/virtual_machine"
+  source = "../../modules/virtual_machine"
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name

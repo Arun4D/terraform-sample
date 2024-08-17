@@ -1,5 +1,5 @@
 module "resource_group" {
-  source = "../modules/resource_group"
+  source = "../../modules/resource_group"
 
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
@@ -8,7 +8,7 @@ module "resource_group" {
 
 
 module "network" {
-  source = "../modules/network"
+  source = "../../modules/network"
 
   vnet_name                                   = var.vnet_name
   vnet_address_space                          = var.vnet_address_space
@@ -27,7 +27,7 @@ module "network" {
 
 }
 module "policy_definition" {
-  source = "../modules/policy/policy-definition"
+  source = "../../modules/policy/policy-definition"
 
   env = "dev"
 }
@@ -69,7 +69,7 @@ data "azurerm_policy_definition" "backup_enable_for_vm" {
 
 
 module "resource_assignment_allowed_loc" {
-  source = "../modules/policy/policy-assignment/allowed-location"
+  source = "../../modules/policy/policy-assignment/allowed-location"
 
   policy_definition_id = data.azurerm_policy_definition.allowed_locations.id
   resource_group_id    = module.resource_group.resource_group_id
@@ -80,7 +80,7 @@ module "resource_assignment_allowed_loc" {
 
 }
 module "resource_assignment_allowed_storage-sku" {
-  source = "../modules/policy/policy-assignment/allowed-storage-sku"
+  source = "../../modules/policy/policy-assignment/allowed-storage-sku"
 
   policy_definition_id = data.azurerm_policy_definition.allowed_storage_sku.id
   resource_group_id    = module.resource_group.resource_group_id
@@ -92,7 +92,7 @@ module "resource_assignment_allowed_storage-sku" {
 }
 
 module "resource_assignment_allowed-vm-ext" {
-  source = "../modules/policy/policy-assignment/allowed-vm-ext"
+  source = "../../modules/policy/policy-assignment/allowed-vm-ext"
 
   policy_definition_id = data.azurerm_policy_definition.approved_vm_ext.id
   resource_group_id    = module.resource_group.resource_group_id
@@ -104,7 +104,7 @@ module "resource_assignment_allowed-vm-ext" {
 }
 
 module "resource_assignment_allowed-vm-sku" {
-  source = "../modules/policy/policy-assignment/allowed-vm-sku"
+  source = "../../modules/policy/policy-assignment/allowed-vm-sku"
 
   policy_definition_id = data.azurerm_policy_definition.allowed_vm_sku.id
   resource_group_id    = module.resource_group.resource_group_id
@@ -117,7 +117,7 @@ module "resource_assignment_allowed-vm-sku" {
 
 
 module "resource_assignment_enable_backup_vm" {
-  source = "../modules/policy/policy-assignment/backup-vm"
+  source = "../../modules/policy/policy-assignment/backup-vm"
 
   policy_definition_id = data.azurerm_policy_definition.backup_enable_for_vm.id
   resource_group_id    = module.resource_group.resource_group_id
@@ -129,7 +129,7 @@ module "resource_assignment_enable_backup_vm" {
 }
 
 module "resource_assignment_naming_rg" {
-  source = "../modules/policy/policy-assignment/naming-rg"
+  source = "../../modules/policy/policy-assignment/naming-rg"
 
   policy_definition_id = module.policy_definition.naming_rg_policy_def_id
   resource_group_id    = module.resource_group.resource_group_id
@@ -141,7 +141,7 @@ module "resource_assignment_naming_rg" {
 }
 
 module "resource_assignment_tagging" {
-  source = "../modules/policy/policy-assignment/tagging"
+  source = "../../modules/policy/policy-assignment/tagging"
 
   policy_definition_id    = module.policy_definition.tagging_policy_id
   resource_group_id       = module.resource_group.resource_group_id
@@ -154,7 +154,7 @@ module "resource_assignment_tagging" {
 }
 
 module "resource_assignment_enforce_nsg_on_subnet" {
-  source = "../modules/policy/policy-assignment/enforce-nsg-on-subnet"
+  source = "../../modules/policy/policy-assignment/enforce-nsg-on-subnet"
 
   policy_definition_id = module.policy_definition.enforce_nsg_on_subnet_policy_def_id
   resource_group_id    = module.resource_group.resource_group_id
@@ -166,7 +166,7 @@ module "resource_assignment_enforce_nsg_on_subnet" {
 }
 
 module "resource_assignment_no_network_peerings_to_er_network" {
-  source = "../modules/policy/policy-assignment/no-network-peerings-to-er-network"
+  source = "../../modules/policy/policy-assignment/no-network-peerings-to-er-network"
 
   policy_definition_id = module.policy_definition.no_network_peerings_to_er_network_policy_def_id
   resource_group_id    = module.resource_group.resource_group_id
@@ -178,7 +178,7 @@ module "resource_assignment_no_network_peerings_to_er_network" {
 }
 
 module "resource_assignment_vm_creation_in_approved_vnet" {
-  source = "../modules/policy/policy-assignment/vm-creation-in-approved-vnet"
+  source = "../../modules/policy/policy-assignment/vm-creation-in-approved-vnet"
 
   policy_definition_id = module.policy_definition.vm_creation_in_approved_vnet_policy_def_id
   resource_group_id    = module.resource_group.resource_group_id
@@ -191,7 +191,7 @@ module "resource_assignment_vm_creation_in_approved_vnet" {
 
 /* 
 module "resource_assignment_naming" {
-  source = "../modules/policy/policy-assignment/naming"
+  source = "../../modules/policy/policy-assignment/naming"
 
   for_each             = { for k, v in module.resource_group : v.resource_group_name => v.resource_group_id }
   policy_definition_id = module.policy_definition.naming_policy_def_id
@@ -205,7 +205,7 @@ module "resource_assignment_naming" {
 }
 
 module "resource_assignment_tagging" {
-  source = "../modules/policy/policy-assignment/tagging"
+  source = "../../modules/policy/policy-assignment/tagging"
 
   for_each             = { for k, v in module.resource_group : v.resource_group_name => v.resource_group_id }
   policy_definition_id = module.policy_definition.tagging_policy_id
@@ -218,7 +218,7 @@ module "resource_assignment_tagging" {
 }
 
 module "resource_assignment_vm_sku" {
-  source = "../modules/policy/policy-assignment/allowed-vm-sku"
+  source = "../../modules/policy/policy-assignment/allowed-vm-sku"
 
   for_each             = { for k, v in module.resource_group : v.resource_group_name => v.resource_group_id }
   policy_definition_id = module.policy_definition.allowed_vm_sku_policy_id
@@ -231,7 +231,7 @@ module "resource_assignment_vm_sku" {
 }
 
 module "resource_assignment_vm_ext" {
-  source = "../modules/policy/policy-assignment/not-allowed-vm-ext"
+  source = "../../modules/policy/policy-assignment/not-allowed-vm-ext"
 
   for_each             = { for k, v in module.resource_group : v.resource_group_name => v.resource_group_id }
   policy_definition_id = module.policy_definition.allowed_vm_sku_policy_id
