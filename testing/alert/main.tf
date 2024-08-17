@@ -38,11 +38,6 @@ module "storage" {
 
 }
 
-module "ssh_keys" {
-  source = "../../modules/ssh_keys"
-
-}
-
 
 /* module "virtual_machine" {
   source = "../../modules/virtual_machine"
@@ -64,7 +59,6 @@ module "virtual_machine_win" {
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
-  public_key_openssh         = module.ssh_keys.public_key_openssh
   primary_blob_endpoint      = module.storage.primary_blob_endpoint
   my_terraform_nic_id        = module.network.terraform_nic_id
   public_ip_fqdn             = module.network.public_ip_fqdn

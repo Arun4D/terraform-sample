@@ -5,7 +5,7 @@ config = {
       id               = "myorg"
       display_name     = "My Organization"
       subscription_ids = []
-      level1           = [
+      level1 = [
         {
           id               = "myorg-decommissioned"
           display_name     = "Decommissioned"
@@ -22,7 +22,7 @@ config = {
           id               = "myorg-platform"
           display_name     = "Platform"
           subscription_ids = []
-          level2           = [
+          level2 = [
             {
               id               = "myorg-connectivity"
               display_name     = "Connectivity"
@@ -44,7 +44,7 @@ config = {
           id               = "myorg-sandboxes"
           display_name     = "Sandboxes"
           subscription_ids = []
-          level2          = []
+          level2           = []
         },
       ]
     }

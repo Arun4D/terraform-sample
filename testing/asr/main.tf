@@ -42,16 +42,12 @@ module "storage" {
 
 }
 
-module "ssh_keys" {
-  source = "../../modules/ssh_keys"
-}
 
 module "virtual_machine_win" {
   source = "../../modules/virtual_machine_win"
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
-  public_key_openssh         = module.ssh_keys.public_key_openssh
   primary_blob_endpoint      = module.storage.primary_blob_endpoint
   my_terraform_nic_id        = module.network.terraform_nic_id
   size                       = "Standard_B2ms"
@@ -60,12 +56,12 @@ module "virtual_machine_win" {
   zone                       = 2
   # availability_set_id        = module.availability_set.availability_set_id
   #disk_encryption_set_id     = module.disk_encryption_set.azurerm_disk_encryption_set_id
-  image_publisher            = var.vm_image["publisher"]
-  image_offer                = var.vm_image["offer"]
-  image_sku                  = var.vm_image["sku"]
-  image_version              = var.vm_image["version"]
-  default_tags               = var.default_tags
-  depends_on                 = [
+  image_publisher = var.vm_image["publisher"]
+  image_offer     = var.vm_image["offer"]
+  image_sku       = var.vm_image["sku"]
+  image_version   = var.vm_image["version"]
+  default_tags    = var.default_tags
+  depends_on = [
     module.resource_group, module.network, module.ssh_keys, module.storage
   ]
 }
@@ -145,10 +141,10 @@ resource "azapi_resource" "replication_vm" {
   name      = "KegpxKCffRfxmGE17wrk9Bt6xZPxMEcd5Hbtb2WPCfQ"
   parent_id = "/subscriptions/fe03bde0-15db-4f68-ac6f-f23934db804f/resourceGroups/ad-asr-rg/providers/microsoft.recoveryservices/vaults/example-recovery-vault/replicationFabrics/primary-fabric/replicationProtectionContainers/asr-a2a-default-northeurope-container"
   #data.azurerm_site_recovery_protection_container.default.id
-  body      = jsonencode({
+  body = jsonencode({
     properties = {
-      policyId                = "/Subscriptions/fe03bde0-15db-4f68-ac6f-f23934db804f/resourceGroups/ad-asr-rg/providers/microsoft.recoveryservices/vaults/example-recovery-vault/replicationPolicies/policy"
-      protectableItemId       = null
+      policyId          = "/Subscriptions/fe03bde0-15db-4f68-ac6f-f23934db804f/resourceGroups/ad-asr-rg/providers/microsoft.recoveryservices/vaults/example-recovery-vault/replicationPolicies/policy"
+      protectableItemId = null
       providerSpecificDetails = {
         instanceType                       = "A2A"
         fabricObjectId                     = lower(module.virtual_machine_win.my_windows_vm_id)
@@ -157,16 +153,16 @@ resource "azapi_resource" "replication_vm" {
         recoveryBootDiagStorageAccountId   = null
         recoveryCapacityReservationGroupId = null
         //recoveryContainerId = azurerm_site_recovery_protection_container.primary.id
-        recoveryExtendedLocation           = null
-        recoveryProximityPlacementGroupId  = null
-        recoveryVirtualMachineScaleSetId   = null
+        recoveryExtendedLocation          = null
+        recoveryProximityPlacementGroupId = null
+        recoveryVirtualMachineScaleSetId  = null
 
         recoveryAvailabilityZone = "3"
-        vmDisks           = [
+        vmDisks = [
           {
-            diskUri                              = data.azurerm_managed_disk.my_windows_vm.id
+            diskUri                             = data.azurerm_managed_disk.my_windows_vm.id
             primaryStagingAzureStorageAccountId = azurerm_storage_account.primary.id
-            recoveryAzureStorageAccountId = azurerm_storage_account.primary.id
+            recoveryAzureStorageAccountId       = azurerm_storage_account.primary.id
             #recoveryResourceGroupId             = module.asr_resource_group.resource_group_id
           },
         ]

@@ -1,7 +1,5 @@
-resource_group_location     = "North Europe"
+resource_group_location     = "eastus"
 resource_group_name         = "ad-terr-rg1"
-asr_resource_group_name     = "ad-asr-rg"
-asrr_resource_group_name    = "ad-asrr-rg"
 vnet_name                   = "myVnet"
 vnet_address_space          = ["10.0.0.0/16"]
 subnet_name                 = "mySubnet"
@@ -15,6 +13,7 @@ nic_ip_config_private_ip_address_allocation = "Dynamic"
 
 nsg_name = "myNetworkSecurityGroup"
 
+servicenow_uri = "https://dev194537.service-now.com/api/1412879/azureservicehealth?apiKey="
 default_tags = {
   environment = "prod"
   department  = "finance"
@@ -43,9 +42,3 @@ availability_set_name        = "example-avail-set"
 platform_fault_domain_count  = 3
 platform_update_domain_count = 5
 
-vm_image = {
-  publisher = "MicrosoftSQLServer"
-  offer     = "sql2016sp3-ws2019"
-  sku       = "standard"
-  version   = "Latest"
-}

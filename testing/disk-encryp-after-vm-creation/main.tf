@@ -38,12 +38,6 @@ module "storage" {
 
 }
 
-module "ssh_keys" {
-  source = "../../modules/ssh_keys"
-
-}
-
-
 module "disk_encryption_set" {
   source = "../../modules/disk_encryption_set"
 
@@ -60,23 +54,22 @@ module "virtual_machine_win" {
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
-  public_key_openssh         = module.ssh_keys.public_key_openssh
   primary_blob_endpoint      = module.storage.primary_blob_endpoint
   my_terraform_nic_id        = module.network.terraform_nic_id
   public_ip_fqdn             = module.network.public_ip_fqdn
   public_ip_address          = module.network.public_ip_address
   # availability_set_id        = module.availability_set.availability_set_id
-  default_tags           = var.default_tags
-  depends_on             = [module.resource_group, module.network, module.ssh_keys, module.storage, module.disk_encryption_set]
+  default_tags = var.default_tags
+  depends_on   = [module.resource_group, module.network, module.ssh_keys, module.storage, module.disk_encryption_set]
 }
 
 module "virtual_machine_win_ext_disk_encryption" {
-  source = "../../modules/vm_win_extensions/disk-encryption"
-  virtual_machine_id = module.virtual_machine_win.my_windows_vm_id
-  KeyVaultURL = module.disk_encryption_set.encryp_key_vault_uri
+  source              = "../../modules/vm_win_extensions/disk-encryption"
+  virtual_machine_id  = module.virtual_machine_win.my_windows_vm_id
+  KeyVaultURL         = module.disk_encryption_set.encryp_key_vault_uri
   KeyVaultResourceId  = module.disk_encryption_set.encryp_key_vault_id
   KeyEncryptionKeyURL = module.disk_encryption_set.encryp_set_key_vault_key_id
-  KekVaultResourceId = module.disk_encryption_set.encryp_key_vault_key_id
-  default_tags = var.default_tags
-  depends_on = [ module.disk_encryption_set, module.virtual_machine_win ]
+  KekVaultResourceId  = module.disk_encryption_set.encryp_key_vault_key_id
+  default_tags        = var.default_tags
+  depends_on          = [module.disk_encryption_set, module.virtual_machine_win]
 }

@@ -1,10 +1,10 @@
 module "resource_group" {
   source = "../../modules/resource_group"
 
-
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
-  default_tags            = var.default_tags
+
+  default_tags = var.default_tags
 }
 
 
@@ -23,8 +23,10 @@ module "network" {
   nic_ip_config_name                          = var.nic_ip_config_name
   nic_ip_config_private_ip_address_allocation = var.nic_ip_config_private_ip_address_allocation
   nsg_name                                    = var.nsg_name
-  default_tags                                = var.default_tags
-  depends_on                                  = [module.resource_group]
+
+  default_tags = var.default_tags
+
+  depends_on = [module.resource_group]
 
 }
 
@@ -33,19 +35,10 @@ module "storage" {
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
-  default_tags               = var.default_tags
-  depends_on                 = [module.resource_group]
 
-}
+  default_tags = var.default_tags
 
-module "disk_encryption_set" {
-  source = "../../modules/disk_encryption_set"
-
-  resource_group_rg_location = var.resource_group_location
-  resource_group_rg_name     = module.resource_group.resource_group_name
-  key_vault_sku_name         = "standard"
-  default_tags               = var.default_tags
-  depends_on                 = [module.resource_group]
+  depends_on = [module.resource_group]
 
 }
 
@@ -58,9 +51,49 @@ module "virtual_machine_win" {
   my_terraform_nic_id        = module.network.terraform_nic_id
   public_ip_fqdn             = module.network.public_ip_fqdn
   public_ip_address          = module.network.public_ip_address
-  # availability_set_id        = module.availability_set.availability_set_id
-  # disk_encryption_set_id = module.disk_encryption_set.azurerm_disk_encryption_set_id
+  admin_username             = "adminuser"
+  admin_password             = "P@$$w0rd1234!"
+
   default_tags = var.default_tags
-  depends_on   = [module.resource_group, module.network, module.ssh_keys, module.storage, module.disk_encryption_set]
+
+  depends_on = [module.resource_group, module.network, module.storage]
 }
 
+module "log_analytics" {
+  source = "../../modules/log_analytics"
+
+  resource_group_rg_name     = module.resource_group.resource_group_name
+  resource_group_rg_location = var.resource_group_location
+
+  default_tags = var.default_tags
+
+  depends_on = [module.virtual_machine_win]
+}
+
+
+module "monitor_vm_action_group" {
+  source = "../../modules/alert/servicenow_monitor_action_group"
+
+  resource_group_rg_name     = module.resource_group.resource_group_name
+  resource_group_rg_location = var.resource_group_location
+  servicenow_uri             = var.servicenow_uri
+
+  default_tags = var.default_tags
+
+  depends_on = [module.virtual_machine_win]
+
+}
+
+module "monitor_vm_activity_log_alert" {
+  source = "../../modules/alert/monitor_activity_log_alert"
+
+  resource_group_rg_name     = module.resource_group.resource_group_name
+  resource_group_rg_location = var.resource_group_location
+  monitor_resource_ids       = [module.resource_group.resource_group_id]
+  action_group_id            = module.monitor_vm_action_group.servicenow_monitor_act_group_id
+
+  default_tags = var.default_tags
+
+  depends_on = [module.monitor_vm_action_group, module.virtual_machine_win]
+
+}

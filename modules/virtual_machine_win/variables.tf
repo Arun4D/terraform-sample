@@ -8,11 +8,6 @@ variable "resource_group_rg_name" {
   description = "resource_group rg name."
 }
 
-variable "public_key_openssh" {
-  default     = ""
-  description = "public key openssh."
-}
-
 variable "primary_blob_endpoint" {
   default     = ""
   description = "primary blob endpoint."
@@ -44,16 +39,24 @@ variable "availability_set_id" {
   description = "availability set id."
 }
 variable "size" {
-default = "Standard_F2"
+  default = "Standard_F2"
 }
 /*variable "disk_encryption_set_id" {
 
 }*/
-variable "image_publisher" {default = "MicrosoftWindowsServer"}
-variable "image_offer" {default = "WindowsServer"}
-variable "image_sku" {default = "2016-Datacenter"}
-variable "image_version" {default = "latest"}
+variable "image_publisher" { default = "MicrosoftWindowsServer" }
+variable "image_offer" { default = "WindowsServer" }
+variable "image_sku" { default = "2016-Datacenter" }
+variable "image_version" { default = "latest" }
 
 variable "zone" {
   default = "2"
+}
+
+variable "admin_username" {
+  default = "adminuser"
+}
+
+variable "admin_password" {
+  default = "P@$$w0rd1234!"
 }

@@ -12,7 +12,7 @@ resource "azurerm_key_vault" "example" {
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
-  
+
     key_permissions = [
       "Get",
       "List",
@@ -23,10 +23,10 @@ resource "azurerm_key_vault" "example" {
       "Recover",
       "Backup",
       "Restore",
-      "Sign", "UnwrapKey", "Verify", 
-      "WrapKey", "Release", "Rotate", "GetRotationPolicy" , "SetRotationPolicy"
+      "Sign", "UnwrapKey", "Verify",
+      "WrapKey", "Release", "Rotate", "GetRotationPolicy", "SetRotationPolicy"
     ]
- 
+
     secret_permissions = [
       "Get",
       "List",
@@ -37,7 +37,7 @@ resource "azurerm_key_vault" "example" {
       "Restore",
       "Set"
     ]
- 
+
     certificate_permissions = [
       "Get",
       "List",
@@ -90,12 +90,12 @@ resource "azurerm_disk_encryption_set" "example" {
 
   tags = var.default_tags
 
-  depends_on = [ azurerm_key_vault_key.example ]
+  depends_on = [azurerm_key_vault_key.example]
 }
 
 
 
- resource "azurerm_key_vault_access_policy" "ad-disk-encryption" {
+resource "azurerm_key_vault_access_policy" "ad-disk-encryption" {
   key_vault_id = azurerm_key_vault.example.id
 
   tenant_id = azurerm_disk_encryption_set.example.identity.0.tenant_id
@@ -124,12 +124,12 @@ resource "azurerm_disk_encryption_set" "example" {
     "Get",
   ]
 
-depends_on = [ azurerm_disk_encryption_set.example ,azurerm_key_vault.example]
-} 
+  depends_on = [azurerm_disk_encryption_set.example, azurerm_key_vault.example]
+}
 
 resource "azurerm_role_assignment" "example-disk" {
   scope                = azurerm_key_vault.example.id
   role_definition_name = "Reader"
   principal_id         = azurerm_disk_encryption_set.example.identity.0.principal_id
-  depends_on = [ azurerm_disk_encryption_set.example ,azurerm_key_vault.example]
+  depends_on           = [azurerm_disk_encryption_set.example, azurerm_key_vault.example]
 }

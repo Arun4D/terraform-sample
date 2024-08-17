@@ -24,7 +24,7 @@ variable "github_config" {
     root_folder     = string
   })
   default = {
-     account_name    = ""
+    account_name    = ""
     branch_name     = ""
     git_url         = ""
     repository_name = ""
@@ -58,15 +58,15 @@ variable "feature_flags" {
   description = "Combined feature flags for validation"
   type = object({
     create_github_config = bool
-    create_vsts_config = bool
+    create_vsts_config   = bool
   })
   default = {
     create_github_config = true
-    create_vsts_config = true
+    create_vsts_config   = true
   }
 
   validation {
-    condition = !(var.feature_flags.create_github_config && var.feature_flags.create_vsts_config)
+    condition     = !(var.feature_flags.create_github_config && var.feature_flags.create_vsts_config)
     error_message = "Both create_github_config and create_vsts_config cannot be true at the same time."
   }
 }

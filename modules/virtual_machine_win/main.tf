@@ -4,8 +4,8 @@ resource "azurerm_windows_virtual_machine" "my_windows_vm" {
   resource_group_name   = var.resource_group_rg_name
   network_interface_ids = [var.my_terraform_nic_id]
   size                  = var.size
-  admin_username        = "adminuser"
-  admin_password        = "P@$$w0rd1234!"
+  admin_username        = var.admin_username
+  admin_password        = var.admin_password
   computer_name         = "myvm"
   zone                  = var.zone
   # Not enabled for student subscription

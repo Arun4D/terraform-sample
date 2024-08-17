@@ -14,8 +14,8 @@ locals {
 }
 
 locals {
-  builtin_library_path = "${path.module}/lib"
-  builtin_policy_definitions_from_json =  tolist(fileset(local.builtin_library_path, "**/policy_definition_*.{json,json.tftpl}"))
+  builtin_library_path                 = "${path.module}/lib"
+  builtin_policy_definitions_from_json = tolist(fileset(local.builtin_library_path, "**/policy_definition_*.{json,json.tftpl}"))
 
   builtin_policy_definitions_from_yaml = tolist(fileset(local.builtin_library_path, "**/policy_definition_*.{yml,yml.tftpl,yaml,yaml.tftpl}"))
 

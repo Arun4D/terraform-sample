@@ -14,7 +14,7 @@ module "data_factory" {
   location            = var.location
   feature_flags       = var.feature_flags
   github_config       = var.github_config
-  vsts_config         = merge(var.vsts_config, { tenant_id = data.azurerm_client_config.current.tenant_id})
+  vsts_config         = merge(var.vsts_config, { tenant_id = data.azurerm_client_config.current.tenant_id })
 
   default_tags = var.default_tags
 

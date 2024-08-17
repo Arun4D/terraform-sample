@@ -38,42 +38,25 @@ module "storage" {
 
 }
 
-module "ssh_keys" {
-  source = "../../modules/ssh_keys"
-
-}
-
-
-/*module "disk_encryption_set" {
-  source = "../../modules/disk_encryption_set"
-
-  resource_group_rg_location = var.resource_group_location
-  resource_group_rg_name     = module.resource_group.resource_group_name
-  key_vault_sku_name         = "standard"
-  default_tags               = var.default_tags
-  depends_on                 = [module.resource_group]
-
-}*/
 
 module "virtual_machine_win" {
   source = "../../modules/virtual_machine_win"
 
   resource_group_rg_location = var.resource_group_location
   resource_group_rg_name     = module.resource_group.resource_group_name
-  public_key_openssh         = module.ssh_keys.public_key_openssh
   primary_blob_endpoint      = module.storage.primary_blob_endpoint
   my_terraform_nic_id        = module.network.terraform_nic_id
-  size = "Standard_B2ms"
+  size                       = "Standard_B2ms"
   public_ip_fqdn             = module.network.public_ip_fqdn
   public_ip_address          = module.network.public_ip_address
   # availability_set_id        = module.availability_set.availability_set_id
   #disk_encryption_set_id     = module.disk_encryption_set.azurerm_disk_encryption_set_id
-  image_publisher            = var.vm_image["publisher"]
-  image_offer                = var.vm_image["offer"]
-  image_sku                  = var.vm_image["sku"]
-  image_version              = var.vm_image["version"]
-  default_tags               = var.default_tags
-  depends_on                 = [
+  image_publisher = var.vm_image["publisher"]
+  image_offer     = var.vm_image["offer"]
+  image_sku       = var.vm_image["sku"]
+  image_version   = var.vm_image["version"]
+  default_tags    = var.default_tags
+  depends_on = [
     module.resource_group, module.network, module.ssh_keys, module.storage
   ]
 }
