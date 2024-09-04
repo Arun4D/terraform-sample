@@ -1,0 +1,18 @@
+{
+    "vm_details": {
+        "name": "arun",
+        "private_ip_address": "192.168.0.x"
+    },
+    "default_user_name": "arun1",
+    "dns_hosts": [
+        {
+            "ip_address": "10.210.21.18",
+            "host_name": "test",
+            "host_alias": "test1 test2"
+        }
+    ],
+    "oracle_home": "/path/to/oracle/home",
+    "oracle_sid": "ORCL",
+    "email_to": "arun@gmail.com",
+    "email_subject": "RRT Report"
+}
