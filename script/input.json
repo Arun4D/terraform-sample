@@ -1,0 +1,14 @@
+{
+    "vm_details": {
+        "name": "RRT",
+        "private_ip_address": "10.210.21.17"
+    },
+    "default_user_name": "adadmin",
+    "hosts": [
+        {
+            "ip_address": "10.210.21.18",
+            "host_name": "test",
+            "host_alias": "test"
+        }
+    ]
+}
